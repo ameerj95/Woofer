@@ -1,0 +1,24 @@
+{
+  "name": "woofer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/msj1995/Woofer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/msj1995/Woofer/issues"
+  },
+  "homepage": "https://github.com/msj1995/Woofer#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.12.13"
+  }
+}
