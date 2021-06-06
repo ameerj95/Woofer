@@ -1,8 +1,10 @@
+body {
+    font-family: 'Permanent Marker', cursive;
+  }
 #contentbody{
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 25fr;
-    
+    grid-template-rows: 1fr 20fr;
     grid-template-areas: 
     "ch""cp";
     
@@ -11,6 +13,7 @@
 #contentheader{
     grid-area: ch;
     display: grid;
+    grid-gap: 10px;
     grid-template-columns: 20fr 1fr;
     grid-template-areas: 
     "chpi chpb";
@@ -27,9 +30,140 @@
     grid-area: chpb;
     width: 100%;
     height: 100%;
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:0 0.1em 0.1em 0;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:white;
+    background-color: #137c3f;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
 }
+#postButton:hover{
+    border-color: rgba(255,255,255,1);
+    }
 /* ===================================================================== */
 #contentposts{
     grid-area: cp;
-    background-color: gray;
+}
+.post{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 15fr;
+    grid-template-areas: 
+    "pp pbc""c c";
+    position: relative;
+    font-family: 'Kalam', cursive;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+.postDate{
+    position: absolute;
+    margin: 10px;
+    right: 1px;
+    top: 1px;
+}
+.nameUser{
+    color: green;
+    font-weight: bold;
+    font-size: 20px;
+}
+.profilePic{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+.postPic{
+    width: 100%;
+    grid-area: pp;
+}
+.postBodyContent{
+    grid-area: pbc;
+}
+/* ===================================================================== */
+.postComments{
+    grid-area: c;
+}
+.comment{
+    border: rgb(226, 226, 226) solid 1px;
+    background-color: rgba(241, 241, 241, 0.041);
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 18fr;
+    grid-template-areas: 
+    "cp cbc";
+    position: relative;
+    font-family: 'Kalam', cursive;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+.commentPic{
+    grid-area: cp;
+
+}
+.commentprofilePic{
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+}
+.commentnameUser{
+    color: rgb(34, 158, 34);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.commentpostDate{
+    position: absolute;
+    margin: 10px;
+    right: 1px;
+    bottom: 1px;
+}
+.commentBodyContent{
+    grid-area: cbc;
+}
+.commentPostButton{
+    grid-area: cpb;
+    height: 100%;
+    display:inline-block;
+    margin: 5px;
+    padding:0.3em 1.2em;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:white;
+    background-color: #137c3f;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
+}
+
+.commentPostButton:hover{
+    border-color: rgba(255,255,255,1);
+    }
+.commentInput{
+    grid-area: ci;
+    height: 100%;
+}
+.addcomment{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10fr 10fr 1fr;
+    grid-template-areas: 
+    ". ci cpb";
+    position: relative;
+    font-family: 'Kalam', cursive;
+    margin: 10px;
+    padding: 20px;
+    float: right;
 }
