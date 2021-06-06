@@ -6,14 +6,13 @@ var ErrMsg = "";
 const userLogged = true
 const LoadPage = async function () {
     if (userLogged === false) {
-        ErrMsg = "you Must Login First"
-        // render.renderError(woofer.UserPosts)
-        return
+        render.renderLogin();
     } else {
+        await woofer.creatUser();
         await woofer.getPostFromDb();
         console.log(woofer.UsersPosts)
         // const data=woofer.UsersPosts;
-        render.renderPosts(woofer.UsersPosts)
+        render.renderFeed(woofer.UsersPosts)
 
     }
 }
@@ -23,31 +22,7 @@ $(document).ready(async function () {
 })
 
 
-const savePost = async function () {
-    console.log("hi")
-    await woofer.getPostFromDb();
-    console.log(woofer.UsersPosts)
-    // var username = prompt("What is your name?");// this is for testing 
-    // const text = inputTextElement.val();
-    // if (validateInput(text)) {
 
-    //     const post = {
-    //         user: username,
-    //         text: text,
-    //         likes: [],
-    //         date: new Date()
-    //     }
-    //     woofer.savePostInDB(post)
-    // } else {
-    //     ErrMsg = "input is not valid";
-    //     //render.render_date({error:ErrMsg})
-    //     return;
-    // }
-
-
-    // render.render_data(woofer.UserPosts)
-
-}
 const deletePost = async function () {
     var postId = prompt("What is your deletepodt id?");
     woofer.deletePostFromDB(postId)
@@ -71,27 +46,53 @@ const saveComment = async function () {
 
 
 
-$('body').on("click", "commentPostButton", function () {
+$('body').on("click", "#postButton", async function () {
+    const postText = $('#postInput').val();
+
+    if (validateInput(postText)) {
+        await savePostInDB(woofer.userName, woofer.userId, postText)
+        await woofer.getPostFromDb()
+        render.renderFeed(woofer.UsersPosts)
+        console.log("ok input")
+    }
+    console.log("inside post")
+})
+
+$('body').on("click", ".deletePost", async function () {
+    postId = $(this).data().postid
+    await woofer.deletePostFromDB(postId)
+    await woofer.getPostFromDb();
+    render.renderFeed(woofer.UsersPosts)
+
 
 })
+
+$('body').on("click", ".commentPostButton", async function () {
+    const commentText = $('.commentInput').val();
+    if (validateInput(commentText)) {
+        await saveCommentInDB(woofer.userName, woofer.userId,commentText)
+        await woofer.getPostFromDb();
+        render.renderFeed(woofer.UsersPosts)
+        console.log("input Not Empty")
+    }
+    console.log(this)
+
+
+})
+
 
 $('body').on("click", "deleteComment", function () {
-    // const comment
-})
+    postId = $(this).data().postid
+    await woofer.deleteCommentFromDB(postId)
+    await woofer.getPostFromDb();
+    render.renderFeed(woofer.UsersPosts)})
 
-PostBtn.on("click", savePost)
 
-// const LogIn = async function(){
-//     // var email = prompt("What is your Email?");// this is for testing 
-//     userLogged=!userLogged
 
-// }
-
-// deletePost()
 //// helper function 
 function validateInput(input) {
-    if (input === "") { return true }
-    return false
+    if (input === "") { return false }
+    return true
 }
 
 function validateEmail(email) {
@@ -101,7 +102,35 @@ function validateEmail(email) {
 }
 
 
-////
+////post 
+
+
+savePostInDB = async function (user, userId, postText) {
+    const newPost = {
+        user: user,
+        text: postText,
+        likes: [],
+        comments: [],
+        date: new Date(),
+        userId: userId
+
+    }
+    await woofer.savePostInDB(newPost);
+    return 0
+}
+
+
+saveCommentInDB = async function (user, postId, commentText) {
+    const newComment = {
+        user : user,
+        text : commentText,
+        date : new Date() ,
+        postId: postId
+
+    }
+    await woofer.saveCommentInDB(newComment);
+    return 0
+}
 
 
 

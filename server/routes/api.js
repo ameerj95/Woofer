@@ -48,7 +48,7 @@ router.post('/user', function (req, res){
         bio : user.bio
     })
     newUser.save()
-    res.send()
+    res.send(newUser)
 })
 
 //Add new post ***checked
@@ -98,6 +98,7 @@ router.get('/init', function (req, res) {
 //Adds new comment ***checked
 router.post('/comment', function (req, res) {
     let comment  = req.body
+    
     let newComment = new Comment({
         user : comment.user,
         text : comment.text,
@@ -116,8 +117,11 @@ router.post('/comment', function (req, res) {
 //Deletes a post ***checked
 router.delete('/posts', function (req, res){
     let {postId}  = req.body
-    Post.findByIdAndDelete(postId,function(err,res){
-        res.send()
+    console.log("req.body^^^^^^^^^^^^66",postId)
+
+    
+    Post.findByIdAndDelete(postId, function (err, postdelete){
+        res.send('ok')
     })
 })
 

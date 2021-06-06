@@ -3,6 +3,32 @@
 class WooferManger {
     constructor() {
         this.UsersPosts = []
+        this.userName;
+        this.userId;
+    }
+
+    /////////////createUser///////////
+    async creatUser() {
+
+        const newUser = {
+            name: "mosahassuna",
+            email: "mosahass@gmail.com",
+            posts: [],
+            isConnected: true,
+            bio: "we hope it will work at the end "
+
+        }
+
+      $.ajax({
+            method: "POST",
+            url: "/user",
+            data: newUser,
+            success: (response) => {
+                console.log("_______-",response)
+                this.userId=response._id;
+                this.userName=response.name;
+            }
+        })
 
     }
     ////////////getData////////////
@@ -36,10 +62,10 @@ class WooferManger {
         $.ajax({
             method: "DELETE",
             url: "/posts",
-            data: data_id,
+            data: {postId:data_id},
             success: (response) => {
                 console.log(response)
-                getPostFromDb()
+                this.getPostFromDb()
             }
         })
     }
@@ -52,8 +78,8 @@ class WooferManger {
             url: "/comment",
             data: comment,
             success: (response) => {
-                console.log(response)
-                getPostFromDb()
+                console.log("___comment podt res__-_",response)
+                this.getPostFromDb()
             }
         })
 
@@ -66,42 +92,42 @@ class WooferManger {
             data: data_id,
             success: (response) => {
                 console.log(response)
-                getPostFromDb()
+                this.getPostFromDb()
 
             }
 
         })
     }
 
-///////// regster Logic///////////////
-async regsterUserInDB(user){
-    $.ajax({
-        method: "POST",
-        url: "/signUp",
-        data: user,
-        success: (response) => {
-            console.log(response)
+    ///////// regster Logic///////////////
+    async regsterUserInDB(user) {
+        $.ajax({
+            method: "POST",
+            url: "/signUp",
+            data: user,
+            success: (response) => {
+                console.log(response)
 
-        }
+            }
 
-    })
+        })
 
-}
+    }
 
-///// login//////////////////
-login(user){
-    $.ajax({
-        method:"POST",
-        url:'logIn',
-        data: user,
-        success: (response) => {
-            console.log(response)
+    ///// login//////////////////
+    login(user) {
+        $.ajax({
+            method: "POST",
+            url: 'logIn',
+            data: user,
+            success: (response) => {
+                console.log(response)
 
-        }
-    })
-}
+            }
+        })
+    }
 
-////////////////////////hashtagLogic Optional//////////
+    ////////////////////////hashtagLogic Optional//////////
 
 
 }
