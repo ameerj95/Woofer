@@ -1,4 +1,3 @@
-
 const PostBtn = $('#postButton');
 const inputTextElement = $('input');
 const woofer = new WooferManger();
@@ -25,22 +24,25 @@ $(document).ready(async function () {
 
 
 const savePost = async function () {
+    console.log("hi")
+    await woofer.getPostFromDb();
+    console.log(woofer.UsersPosts)
     // var username = prompt("What is your name?");// this is for testing 
-    const text = inputTextElement.val();
-    if (validateInput(text)) {
+    // const text = inputTextElement.val();
+    // if (validateInput(text)) {
 
-        const post = {
-            user: username,
-            text: text,
-            likes: [],
-            date: new Date()
-        }
-        woofer.savePostInDB(post)
-    } else {
-        ErrMsg = "input is not valid";
-        //render.render_date({error:ErrMsg})
-        return;
-    }
+    //     const post = {
+    //         user: username,
+    //         text: text,
+    //         likes: [],
+    //         date: new Date()
+    //     }
+    //     woofer.savePostInDB(post)
+    // } else {
+    //     ErrMsg = "input is not valid";
+    //     //render.render_date({error:ErrMsg})
+    //     return;
+    // }
 
 
     // render.render_data(woofer.UserPosts)
@@ -63,7 +65,6 @@ const saveComment = async function () {
     }
     woofer.saveCommentInDB(newTesterComment);
     // render.render_data(woofer.UserPosts)
-
 
 }
 
@@ -98,11 +99,6 @@ function validateEmail(email) {
     return re.test(email);
 
 }
-
-
-
-
-
 
 
 ////
