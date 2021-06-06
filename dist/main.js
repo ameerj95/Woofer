@@ -80,8 +80,6 @@ $('body').on("click", "deleteComment", function () {
 
 PostBtn.on("click", savePost)
 
-
-
 // const LogIn = async function(){
 //     // var email = prompt("What is your Email?");// this is for testing 
 //     userLogged=!userLogged
