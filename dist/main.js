@@ -4,25 +4,24 @@ const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
 const userLogged = true
-// const LoadPage = async function () {
-//     if (userLogged === false) {
-//         ErrMsg = "you Must Login First"
-//         // render.renderError(woofer.UserPosts)
-//         return
-//     } else {
-//         await woofer.getPostFromDb();
-//         console.log(woofer.UsersPosts)
+const LoadPage = async function () {
+    if (userLogged === false) {
+        ErrMsg = "you Must Login First"
+        // render.renderError(woofer.UserPosts)
+        return
+    } else {
+        await woofer.getPostFromDb();
+        console.log(woofer.UsersPosts)
+        // const data=woofer.UsersPosts;
+        render.renderPosts(woofer.UsersPosts)
 
-//         render.renderPosts(woofer.UserPosts)
+    }
+}
 
-//     }
-// }
+$(document).ready(async function () {
+    await LoadPage()
+})
 
-// const LogIn = async function(){
-//     // var email = prompt("What is your Email?");// this is for testing 
-//     userLogged=!userLogged
-
-// }
 
 const savePost = async function () {
     console.log("hi")
@@ -70,13 +69,25 @@ const saveComment = async function () {
 }
 
 
-$('body').on("click", "deleteComment", function () {
 
+
+$('body').on("click", "commentPostButton", function () {
+
+})
+
+$('body').on("click", "deleteComment", function () {
+    // const comment
 })
 
 PostBtn.on("click", savePost)
 
 
+
+// const LogIn = async function(){
+//     // var email = prompt("What is your Email?");// this is for testing 
+//     userLogged=!userLogged
+
+// }
 
 // deletePost()
 //// helper function 
