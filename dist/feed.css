@@ -1,0 +1,35 @@
+#contentbody{
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 25fr;
+    
+    grid-template-areas: 
+    "ch""cp";
+    
+  }
+/* ===================================================================== */
+#contentheader{
+    grid-area: ch;
+    display: grid;
+    grid-template-columns: 20fr 1fr;
+    grid-template-areas: 
+    "chpi chpb";
+}
+
+#postInput{
+    grid-area: chpi;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#postButton{
+    grid-area: chpb;
+    width: 100%;
+    height: 100%;
+}
+/* ===================================================================== */
+#contentposts{
+    grid-area: cp;
+    background-color: gray;
+}
