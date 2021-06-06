@@ -1,45 +1,22 @@
-// const renderer = new Renderer()
-// var comment = {
-//     user : "ameer",
-//     text : "shutup moses! its sunny!",
-//     date : "Sunday 2/2/2020" 
-// }
-// var comment2 = {
-//     user : "alaa",
-//     text : "did it rain?",
-//     date : "Sunday 2/2/2020" 
-// }
-
-// var post = {
-//     user:"muses",
-//     text:"today is a rainy day",
-//     date:"sunday 2/2/2020",
-//     comments:[comment,comment2]
-// }
-
-// var posts = [post,post,post]
-// console.log("hi")
-// renderer.renderPosts(posts)
-
 const PostBtn = $('#postButton');
 const inputTextElement = $('input');
 const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
 const userLogged = true
-const LoadPage = async function () {
-    if (userLogged === false) {
-        ErrMsg = "you Must Login First"
-        // render.renderError(woofer.UserPosts)
-        return
-    } else {
-        await woofer.getPostFromDb();
-        console.log(woofer.UsersPosts)
+// const LoadPage = async function () {
+//     if (userLogged === false) {
+//         ErrMsg = "you Must Login First"
+//         // render.renderError(woofer.UserPosts)
+//         return
+//     } else {
+//         await woofer.getPostFromDb();
+//         console.log(woofer.UsersPosts)
 
-        render.renderPosts(woofer.UserPosts)
+//         render.renderPosts(woofer.UserPosts)
 
-    }
-}
+//     }
+// }
 
 // const LogIn = async function(){
 //     // var email = prompt("What is your Email?");// this is for testing 
@@ -48,22 +25,25 @@ const LoadPage = async function () {
 // }
 
 const savePost = async function () {
+    console.log("hi")
+    await woofer.getPostFromDb();
+    console.log(woofer.UsersPosts)
     // var username = prompt("What is your name?");// this is for testing 
-    const text = inputTextElement.val();
-    if (validateInput(text)) {
+    // const text = inputTextElement.val();
+    // if (validateInput(text)) {
 
-        const post = {
-            user: username,
-            text: text,
-            likes: [],
-            date: new Date()
-        }
-        woofer.savePostInDB(post)
-    } else {
-        ErrMsg = "input is not valid";
-        //render.render_date({error:ErrMsg})
-        return;
-    }
+    //     const post = {
+    //         user: username,
+    //         text: text,
+    //         likes: [],
+    //         date: new Date()
+    //     }
+    //     woofer.savePostInDB(post)
+    // } else {
+    //     ErrMsg = "input is not valid";
+    //     //render.render_date({error:ErrMsg})
+    //     return;
+    // }
 
 
     // render.render_data(woofer.UserPosts)
@@ -96,7 +76,7 @@ $('body').on("click", "deleteComment", function () {
 
 PostBtn.on("click", savePost)
 
-LoadPage()
+
 
 // deletePost()
 //// helper function 
