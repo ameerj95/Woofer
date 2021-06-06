@@ -1,30 +1,32 @@
-const { text } = require("express");
 
 const PostBtn = $('#postButton');
 const inputTextElement = $('input');
 const woofer = new WooferManger();
 const render = new Renderer();
-const ErrMsg = "";
-const userLogged = false
+var ErrMsg = "";
+const userLogged = true
 const LoadPage = async function () {
     if (userLogged === false) {
         ErrMsg = "you Must Login First"
         // render.renderError(woofer.UserPosts)
         return
+    } else {
+        await woofer.getPostFromDb();
+        console.log(woofer.UsersPosts)
+
+        render.renderPosts(woofer.UserPosts)
+
     }
-    await woofer.getPostFromDb();
-    // render.renderPosts(woofer.UserPosts)
-    console.log(woofer.UsersPosts)
 }
 
-const LogIn = async function(){
-    var email = prompt("What is your Email?");// this is for testing 
-    userLogged=!userLogged
-    
-}
+// const LogIn = async function(){
+//     // var email = prompt("What is your Email?");// this is for testing 
+//     userLogged=!userLogged
+
+// }
 
 const savePost = async function () {
-    var username = prompt("What is your name?");// this is for testing 
+    // var username = prompt("What is your name?");// this is for testing 
     const text = inputTextElement.val();
     if (validateInput(text)) {
 
@@ -79,7 +81,7 @@ PostBtn.on("click", savePost)
 
 LoadPage()
 
-deletePost()
+// deletePost()
 //// helper function 
 function validateInput(input) {
     if (input === "") { return true }
