@@ -1,4 +1,5 @@
 .navbar {
+  font-family: 'Kalam', cursive;
     background-image: url("imgs/header_background.jpg");
     overflow: hidden;
   }
@@ -8,13 +9,17 @@
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 30px;
   }
   .navbar a:hover {
-    background-color: #ddd;
-    color: black;
+    background-color: rgb(82, 151, 81);
+    color: rgb(255, 255, 255);
   }
     .navbar a.active {
-    background-color: #04AA6D;
+    background-color: rgb(44, 85, 43);
     color: white;
+  }
+
+  #logout{
+    background-color: rgba(27, 46, 27, 0.404);
   }
