@@ -5,15 +5,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="feed.css" />
+    <link rel="stylesheet" href="navbar.css" />
+    <title>Woofer!</title>
 </head>
 
 <body>
+    <div id="header">
+        <div class="navbar">
+            <a class="active" id="feed">Woofer</a>
+            <a id="searchFriends">Friends</a>
+            <a id="search">Search</a>
+            <a id="profile">Profile</a>
+        </div>
+    </div>
+    <br>
+    <div id="contentbody">
+        <div id="contentheader">
+            <input type="text" id="postInput">
+            <button id="postButton">Post!</button>
+        </div>
+        <div id="contentposts">
+            <div id="posts">
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- FEED TEMPLATE -->
+    <script id="feed-template" type="text/x-handlebars-template">
+        <div id="contentheader">
+            <input type="text" id="postInput" >
+            <button id="postButton">Post!</button>
+        </div>
+        <div id="contentposts">
+            <div id="posts">
+            </div>
+        </div>
+    </script>
+
+
+
+
+
+
+
+
+
+    <!-- POST TEMPLATE -->
+    <script id="post-template" type="text/x-handlebars-template">
+        {{#each posts}}
+            <div class="post">
+                <div class="nameUser">
+                    {{user}}
+                </div>
+                <div class="postText">
+                    {{text}}
+                </div>
+                <div class="postDate">
+                    {{date}}
+                </div>
+            </div>
+        {{/each}}
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
     <script src="logic.js"></script>
+    <script src="renderer.js"></script>
     <script src="main.js"></script>
+
+
 </body>
 
 </html>
