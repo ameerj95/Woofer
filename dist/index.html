@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&family=Permanent+Marker&family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="feed.css" />
     <link rel="stylesheet" href="navbar.css" />
     <title>Woofer!</title>
@@ -26,8 +30,6 @@
             <button id="postButton">Post!</button>
         </div>
         <div id="contentposts">
-            <div id="posts">
-            </div>
         </div>
     </div>
 
@@ -38,7 +40,7 @@
 
 
     <!-- FEED TEMPLATE -->
-    <script id="feed-template" type="text/x-handlebars-template">
+    <!-- <script id="feed-template" type="text/x-handlebars-template">
         <div id="contentheader">
             <input type="text" id="postInput" >
             <button id="postButton">Post!</button>
@@ -47,7 +49,7 @@
             <div id="posts">
             </div>
         </div>
-    </script>
+    </script> -->
 
 
 
@@ -61,14 +63,43 @@
     <script id="post-template" type="text/x-handlebars-template">
         {{#each posts}}
             <div class="post">
-                <div class="nameUser">
-                    {{user}}
+                <div class="postPic">
+                    <img class="profilePic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
                 </div>
-                <div class="postText">
-                    {{text}}
+                <div class="postBodyContent">
+                    <div class="nameUser">
+                        {{user}}
+                    </div>
+                    <div class="postText">
+                        {{text}}
+                    </div>
+                    <div class="postDate">
+                        {{date}}
+                    </div>
                 </div>
-                <div class="postDate">
-                    {{date}}
+                <div class="postComments">
+                        {{#each comments}}
+                        <div class="comment">
+                            <div class="commentPic">
+                                <img class="commentprofilePic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
+                            </div>
+                            <div class="commentBodyContent">
+                                <div class="commentnameUser">
+                                    {{user}}
+                                </div>
+                                <div class="commentpostText">
+                                    {{text}}
+                                </div>
+                                <div class="commentpostDate">
+                                    {{date}}
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                        <div class="addcomment">
+                            <input type="text" class="commentInput">
+                            <button class="commentPostButton">Comment!</button>
+                        </div>
                 </div>
             </div>
         {{/each}}
