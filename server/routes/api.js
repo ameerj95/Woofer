@@ -21,6 +21,31 @@ router.post('/posts', function (req, res) {
     newPost.save()
     res.send()
 })
+router.get('/init', function (req, res) {
+    let p1 = new User({
+        name : "alaa",
+        email: "alaa@mail.com",
+        posts : [],
+        isConnected : true,
+        bio : "Im here and NOT by choice"
+     })
+    let post1 = new Post({
+        user :"alaa" ,
+        likes : ["musa","alaa","amir"],
+        text : "First post, hello",
+    })
+    let post2 = new Post({
+        user : "alaa",
+        likes : ["musa","alaa"],
+        text : "hey there!",
+    })
+    post1.save()
+    post2.save()
+    p1.posts.push(post1,post2)
+    p1.save()
+})
+
+
 
 
 module.exports = router

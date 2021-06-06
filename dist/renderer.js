@@ -1,4 +1,4 @@
-class Renderer{
+class Renderer {
     constructor() {
         this.source = $('#post-template').html();
         this.template = Handlebars.compile(this.source);
@@ -6,10 +6,10 @@ class Renderer{
     }
     renderPosts(posts) {
         console.log(posts)
-        const newHTML = this.template({ posts:posts });
+        const newHTML = this.template({ posts: posts });
         this.postsElement.empty().append(newHTML);
     }
-    renderFeed(){
-        
+    renderFeed() {
+
     }
 }
