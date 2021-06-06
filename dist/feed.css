@@ -14,6 +14,7 @@ body {
     grid-area: ch;
     display: grid;
     grid-gap: 10px;
+    box-sizing: border-box;
     grid-template-columns: 20fr 1fr;
     grid-template-areas: 
     "chpi chpb";
@@ -24,6 +25,7 @@ body {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    margin: 0ch;
 }
 
 #postButton{
@@ -53,6 +55,7 @@ body {
     grid-area: cp;
 }
 .post{
+    background-color: rgba(51, 150, 51, 0.267);
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 1fr 15fr;
@@ -78,10 +81,13 @@ body {
 .profilePic{
     height: 100px;
     width: 100px;
+    border: 5px solid rgb(255, 255, 255);
+
     border-radius: 50%;
 }
 .postPic{
     width: 100%;
+    
     grid-area: pp;
 }
 .postBodyContent{
@@ -92,8 +98,8 @@ body {
     grid-area: c;
 }
 .comment{
-    border: rgb(226, 226, 226) solid 1px;
-    background-color: rgba(241, 241, 241, 0.041);
+    border: rgb(255, 255, 255) solid 5px;
+    background-color: rgba(24, 109, 24, 0.253);
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 1fr 18fr;
@@ -112,6 +118,8 @@ body {
 .commentprofilePic{
     height: 70px;
     width: 70px;
+    border: 5px solid rgb(255, 255, 255);
+
     border-radius: 50%;
 }
 .commentnameUser{
@@ -124,7 +132,7 @@ body {
     position: absolute;
     margin: 10px;
     right: 1px;
-    bottom: 1px;
+    top: 1px;
 }
 .commentBodyContent{
     grid-area: cbc;
@@ -166,4 +174,60 @@ body {
     margin: 10px;
     padding: 20px;
     float: right;
+}
+/* delete comment */
+.deleteComment{
+    background-color: rgba(255, 72, 72, 0.863);
+    color: white;
+    position: absolute;
+    margin: 10px;
+    right: 1px;
+    bottom: 1px;
+    grid-area: cpb;
+    display:inline-block;
+    margin: 5px;
+    padding:0.3em 1.2em;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:white;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
+    width: max-content
+}
+
+.deleteComment:hover{
+    border-color: rgba(255,255,255,1);
+}
+/* delete post */
+.deletePost{
+    background-color: rgba(255, 72, 72, 0.863);
+    color: white;
+    position: absolute;
+    margin: 10px;
+    right: 1px;
+    bottom: 1px;
+    grid-area: cpb;
+    display:inline-block;
+    margin: 5px;
+    padding:0.3em 1.2em;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:white;
+    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
+    text-align:center;
+    transition: all 0.2s;
+    width: max-content
+}
+
+.deletePost:hover{
+    border-color: rgba(255,255,255,1);
 }

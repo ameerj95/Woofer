@@ -10,52 +10,91 @@
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="feed.css" />
+    <link rel="stylesheet" href="login.css" />
     <link rel="stylesheet" href="navbar.css" />
     <title>Woofer!</title>
 </head>
 
 <body>
     <div id="header">
-        <div class="navbar">
+        <!-- <div class="navbar">
             <a class="active" id="feed">Woofer</a>
             <a id="searchFriends">Friends</a>
             <a id="search">Search</a>
             <a id="profile">Profile</a>
-        </div>
+            <a id="logout">Logout</a>
+        </div> -->
     </div>
     <br>
     <div id="contentbody">
+    </div>
+
+    <!-- NAVBAR Template -->
+    <script id="navbar-template" type="text/x-handlebars-template">
+        <div class="navbar">
+            <a class="active" id="feed">Woofer</a>
+            {{#if connection}}
+                <a id="searchFriends">Friends</a>
+                <a id="search">Search</a>
+                <a id="profile">Profile</a>
+                <a id="logout">Logout</a>
+            {{/if}}
+        </div>
+    </script>
+
+
+    <!-- Signup TEMPLATE -->
+    <script id="signup-template" type="text/x-handlebars-template">
+        <div class="container">
+            <h1>Sign Up</h1>
+            <p>Please fill this form to join Woofer!</p>
+            <hr>
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+        
+            <label for="psw-repeat"><b>Repeat Password</b></label>
+            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+            <p>By creating an account you agree to our <div><span>Terms & Services</span></div>.</p>
+        
+            <div class="clearfix">
+              <button type="button" class="cancelbtn">Cancel</button>
+              <button type="submit" class="signupbtn">Sign Up</button>
+            </div>
+          </div>
+    </script>
+
+    <!-- FEED TEMPLATE -->
+    <script id="feed-template" type="text/x-handlebars-template">
         <div id="contentheader">
             <input type="text" id="postInput">
             <button id="postButton">Post!</button>
         </div>
         <div id="contentposts">
         </div>
-    </div>
+    </script>
 
+    <!-- LOGIN TEMPLATE -->
+    <script id="login-template" type="text/x-handlebars-template">
+        <div class="loginContainer">
+            <div class="imgcontainer">
+                <h1 class="loginText">Login</h1>
+                <img id="login_logo" src="/imgs/woofer_logo.png" alt="Avatar" class="avatar">
+            </div>
+            <div class="container">
+              <label for="uname"><b>Username</b></label>
+              <input id="loginUserInpt" type="text" placeholder="Enter Username" name="uname" required>
 
-
-
-
-
-
-    <!-- FEED TEMPLATE -->
-    <!-- <script id="feed-template" type="text/x-handlebars-template">
-        <div id="contentheader">
-            <input type="text" id="postInput" >
-            <button id="postButton">Post!</button>
-        </div>
-        <div id="contentposts">
-            <div id="posts">
+              <label for="psw"><b>Password</b></label>
+              <input id="loginPwInpt" type="password" placeholder="Enter Password" name="psw" required>
+                  
+              <button type="submit">Login</button>
             </div>
         </div>
-    </script> -->
-
-
-
-
-
-
+    </script>
 
 
 
@@ -76,8 +115,9 @@
                     <div class="postDate">
                         {{date}}
                     </div>
+                    <button class="deletePost" data-postid="{{_id}}">X</button>
                 </div>
-                <div class="postComments">
+                <div class="postComments" data-postid="{{_id}}">
                         {{#each comments}}
                         <div class="comment">
                             <div class="commentPic">
@@ -93,18 +133,21 @@
                                 <div class="commentpostDate">
                                     {{date}}
                                 </div>
+                                <button class="deleteComment" data-commentid={{_id}}>X</button>
                             </div>
                         </div>
                         {{/each}}
                         <div class="addcomment">
                             <input type="text" class="commentInput">
-                            <button class="commentPostButton">Comment!</button>
+                            <button data-postid="{{_id}}" class="commentPostButton">Comment!</button>
                         </div>
                 </div>
             </div>
         {{/each}}
     </script>
 
+
+    
     <script src="https://code.jquery.com/jquery-3.3.1.js"
         integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
