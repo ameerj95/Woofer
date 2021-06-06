@@ -13,17 +13,16 @@ const LoadPage = async function () {
     } else {
         await woofer.getPostFromDb();
         console.log(woofer.UsersPosts)
-
-        render.renderPosts(woofer.UserPosts)
+        // const data=woofer.UsersPosts;
+        render.renderPosts(woofer.UsersPosts)
 
     }
 }
 
-// const LogIn = async function(){
-//     // var email = prompt("What is your Email?");// this is for testing 
-//     userLogged=!userLogged
+$(document).ready(async function () {
+    await LoadPage()
+})
 
-// }
 
 const savePost = async function () {
     // var username = prompt("What is your name?");// this is for testing 
@@ -71,15 +70,23 @@ const saveComment = async function () {
 
 
 
+$('body').on("click", "commentPostButton", function () {
 
+})
 
 $('body').on("click", "deleteComment", function () {
-
+    // const comment
 })
 
 PostBtn.on("click", savePost)
 
-LoadPage()
+
+
+// const LogIn = async function(){
+//     // var email = prompt("What is your Email?");// this is for testing 
+//     userLogged=!userLogged
+
+// }
 
 // deletePost()
 //// helper function 

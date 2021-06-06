@@ -3,7 +3,7 @@
 class WooferManger {
     constructor() {
         this.UsersPosts = []
-        this.user={}
+
     }
     ////////////getData////////////
     async getPostFromDb() {
@@ -15,6 +15,7 @@ class WooferManger {
 
             },
         })
+
     }
     ///////////////////  post Logic///////////////////////////
     async savePostInDB(post) {
