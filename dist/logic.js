@@ -33,8 +33,8 @@ class WooferManger {
         url:"/posts",
         data:{deletePost}, 
         success:(response)=>{
-            this.
         }
+        
        })
     }
 
