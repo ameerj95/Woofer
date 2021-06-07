@@ -120,16 +120,16 @@
             <p class="signuptext">Please fill this form to join Woofer!</p>
             <hr>
             <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="username"  autocomplete="off" required>
+            <input id="userNameInput" type="text" placeholder="Enter Username" name="username"  autocomplete="off" required>
 
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email"  autocomplete="off" required>
+            <input id="emailInput"type="text" placeholder="Enter Email" name="email"  autocomplete="off" required>
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw"  autocomplete="off" required>
+            <input id="passInput" type="password" placeholder="Enter Password" name="psw"  autocomplete="off" required>
 
             <label for="bio"><b>Bio</b></label>
-            <input type="text" placeholder="Tell us a little bit about you..." name="bio"  autocomplete="off" required>
+            <input id="bioInput"type="text" placeholder="Tell us a little bit about you..." name="bio"  autocomplete="off" required>
 
             <p>By creating an account you agree to our 
                 <span class="magicterms">Terms & Services
@@ -155,13 +155,13 @@
             <p class="signuptext">Edit your profile info</p>
             <hr>
             <label for="username"><b>Username</b></label>
-            <input type="text" value="{{name}}" name="username"  autocomplete="off" required>
+            <input id="userNameInput"type="text" value="{{name}}" name="username"  autocomplete="off" required>
 
-            <label for="email"><b>Email</b></label>
-            <input type="text" value="{{email}}" name="email"  autocomplete="off" required>
+            <label  for="email"><b>Email</b></label>
+            <input id="emailInput"type="text" value="{{email}}" name="email"  autocomplete="off" required>
 
             <label for="bio"><b>Bio</b></label>
-            <input type="text" value="{{bio}}" name="bio"  autocomplete="off" required>
+            <input id="bioInput" type="text" value="{{bio}}" name="bio"  autocomplete="off" required>
             <div class="clearfix">
               <button type="submit" class="signupbtn">Change</button>
             </div>

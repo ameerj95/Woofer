@@ -3,7 +3,7 @@ const inputTextElement = $('input');
 const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
-var userLogged = false
+var userLogged = true
 const newUser = {
     name: "firstUser",
     email: "mosahass@gmail.com",
@@ -39,19 +39,20 @@ $(document).ready(async function () {
 $('body').on("click", ".signupbtn", async function () {
     const inputs = $(this).closest('.container').find("input")
     /////commet below/////////
-    const email = $(inputs)[0].value
-    const firstPass = $(inputs)[1].value
-    const secondPass = $(inputs)[2].value
+    // const email = $(inputs)[0].value
+    // const firstPass = $(inputs)[1].value
+    // const secondPass = $(inputs)[2].value
 
-    const userName = "testimg"
-    const bio = "testing "
+    // const userName = "testimg"
+    // const bio = "testing "
     /////commet above/////////
 
-    ///////////////uncoment this 
-    // const userName =  $(inputs)[0].value
-    // const email =  $(inputs)[1].value
-    // const firstPass =  $(inputs)[2].value
-    //  const bio=  $(inputs)[3].value
+    /////////////uncoment this 
+    const userName = $("#userNameInput").val()
+    const email = $("#emailInput").val()
+    const pass = $("#passInput").val()
+    const bio = $("#bioInput").val()
+    console.log("user email pass bio ",userName)
 
 
 
