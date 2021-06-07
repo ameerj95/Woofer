@@ -24,9 +24,8 @@ $(document).ready(async function () {
 })
 
 //User sign-in 
-$('body').on("click", ".signupbtn", async function () {
-    await woofer.creatUser();
-    LoadPage()
+$("body").on("click",".signupinlogin",async function(){
+    render.renderSignUp()
 })
 
 //User login 
@@ -34,6 +33,7 @@ $('body').on("click", ".loginbtn", async function () {
     await woofer.login()
     if (woofer.userName === false) {
         render.renderLogin()
+        alert("Email or password is incorrect")
     }
     else {
         LoadPage()
@@ -114,7 +114,7 @@ $("body").on("click", "#searchFriends", async function () {
 //-------------------------------------------------------------------------
 $("body").on("click", "#searchHash", async function () {
     console.log("in event listener of hashsearch page")
-    render.renderSearchHash()
+    render.renderSearchHash([],woofer.userName)
 })
 
 //-------------------------------------------------------------------------
@@ -122,7 +122,7 @@ $("body").on("click", "#searchHash", async function () {
 //-------------------------------------------------------------------------
 $("body").on("click", "#profile", async function () {
     console.log("in event listener of profile page")
-    render.renderProfile(await woofer.getUser(woofer.userName), true)
+    render.renderProfile(await woofer.getUser(woofer.userName), woofer.userName)
 })
 //-------------------------------------------------------------------------
 //logout
@@ -137,7 +137,7 @@ $("body").on("click", "#logout", async function () {
 //-------------------------------------------------------------------------
 $("body").on("click", "#hashSearchBtn", async function () {
     console.log("in event listener of hashsearch button")
-    render.renderSearchHash(await woofer.getSearchedHash())
+    render.renderSearchHash(await woofer.getSearchedHash(),woofer.userName)
 })
 //-------------------------------------------------------------------------
 //Profile Edit Event listener
@@ -151,32 +151,21 @@ $("body").on("click", "#editButton", async function () {
 //-------------------------------------------------------------------------
 $("body").on("click", "#editBtnProfile", async function () {
     console.log("in event listener of edit button profile")
-    render.renderProfile(await updateProfile())
+    render.renderProfile(await updateProfile(),woofer.userName)
+})
+//-------------------------------------------------------------------------
+$("body").on("click","input",async function(){
+    console.log("do nothing")
 })
 
+//-------------------------------------------------------------------------
+$("body").on("click",".profilelink",async function(){
+    console.log("in event listener of edit button profile")
+    render.renderProfile(await woofer.getUser($(this).data().username) , woofer.userName)
+})
+//-------------------------------------------------------------------------
+$("body").on("click","#feed",async function(){
+    console.log("in event listener of feed")
+    LoadPage()
+})
 
-// var myChar = '£';
-// var str = "This product price is £15.00 and old price is £19.00";
-// var myArray = str.split(' ');
-// for(var i = 0; i < myArray.length; i++) {
-//   if (myArray[i].charAt(0) == myChar) {
-//     console.log(myArray[i]);
-//   }
-// }
-var str = "This #product #price #is £15.00 and #old price is £19.00";
-
-function getHashies(str) {
-    const cleanArr = []
-    var hashTagArray = str.split(" ").filter(function (n) {
-        if (/#/.test(n)) {
-            let word = n.slice(1)
-            // console.log(word)
-            cleanArr.push(word)
-            // return word
-        }
-    });
-    return cleanArr
-
-}
-var arr = getHashies(str)
-console.log("############", arr);
