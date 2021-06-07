@@ -4,7 +4,7 @@ class WooferManger {
         this.userName;
     }
     //
-    initUser(username){
+    initUser(username) {
         this.userName = username
     }
     //Create user
@@ -19,7 +19,7 @@ class WooferManger {
             posts: [],
             isConnected: true,
             bio: bio,
-            password : password
+            password: password
         }
         $.ajax({
             method: "POST",
@@ -44,7 +44,7 @@ class WooferManger {
         })
 
     }
-   
+
     //Save post
     async savePostInDB() {
         const postText = $('#postInput').val()
@@ -64,7 +64,7 @@ class WooferManger {
             }
         })
     }
-     
+
     //Delete post
     async deletePostFromDB(data_id) {
         $.ajax({
@@ -72,7 +72,7 @@ class WooferManger {
             url: "/posts",
             data: { postId: data_id },
             success: (response) => {
-                 this.getPostFromDb()
+                this.getPostFromDb()
             }
         })
     }
@@ -96,10 +96,10 @@ class WooferManger {
 
     //Delete comment
     async deleteCommentFromDB(data_id) {
-       return $.ajax({
+        return $.ajax({
             method: "DELETE",
             url: "/comment",
-            data: {commentId:data_id},
+            data: { commentId: data_id },
             success: (response) => {
                 this.getPostFromDb()
             }
@@ -113,57 +113,59 @@ class WooferManger {
         return $.ajax({
             method: "POST",
             url: '/login',
-            data: {email: email , password :password},
+            data: { email: email, password: password },
             success: (response) => {
-                if(response != false){
+                if (response != false) {
                     this.initUser(response.name)
                 }
-                else{
+                else {
                     this.initUser(false)
                 }
             }
         })
     }
-        //this function gets friends and returns it
-        async getFriends() {
-            return $.ajax({
-                method: "get",
-                url: '/getFriends',
-            })
-        }
-        //-------------------------------------------------------------------------
-        //this function gets hashed posts
-        async getSearchedHash() {
-            var hashInput = $("#hashInput").val()
-            return $.ajax({
-                method: "get",
-                url: `/getHashed/${hashInput}`,
-            })
-        }
-        //-------------------------------------------------------------------------
-        //this function gets hashed posts
-        async getUser(username) {
-            return $.ajax({
-                method: "get",
-                url: `/user/${username}`,
-            })
-        }
-        //-------------------------------------------------------------------------
-        async logout(){
-            return $.ajax({
-                method: "get",
-                url: `/logout`,
-            })
-        }
-        //-------------------------------------------------------------------------
-        async updateProfile(){
-            var name = $("#userNameInput").val()
-            var email = $("#emailInput").val()
-            var bio = $("#bioInput").val()
-            return $.ajax({
-                method: "put",
-                url: `/user`,
-                data:{name:name,email:email,bio:bio},
-            })
-        }
+    //this function gets friends and returns it
+    async getFriends() {
+        return $.ajax({
+            method: "get",
+            url: '/getFriends',
+        })
+    }
+    //-------------------------------------------------------------------------
+    //this function gets hashed posts
+    async getSearchedHash() {
+        var hashInput = $("#hashInput").val()
+        return $.ajax({
+            method: "get",
+            url: `/getHashed/${hashInput}`,
+        })
+    }
+    //-------------------------------------------------------------------------
+    //this function gets hashed posts
+    async getUser(username) {
+        return $.ajax({
+            method: "get",
+            url: `/user/${username}`,
+        })
+    }
+    //-------------------------------------------------------------------------
+    async logout() {
+        return $.ajax({
+            method: "get",
+            url: `/logout`,
+        })
+    }
+    //-------------------------------------------------------------------------
+    async updateProfile() {
+        var name = $("#userNameInput").val()
+        var email = $("#emailInput").val()
+        var bio = $("#bioInput").val()
+        return $.ajax({
+            method: "put",
+            url: `/user`,
+            data: { name: name, email: email, bio: bio },
+        })
+    }
+    //-----------------------------------------------------------------------   
+
 }

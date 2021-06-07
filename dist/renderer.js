@@ -80,20 +80,21 @@ class Renderer {
         const newHTML = this.template_edit(user);
         this.content.empty().append(newHTML);
     }
-    renderSearchHash(posts, user) {
+    renderSearchHash(hashtag, user) {
+        console.log(hashtag)
         this.renderNavBar(true)
         console.log("in renderfeed")
         const newHTML = this.template_hash();
         this.content.empty().append(newHTML);
-        this.renderPosts(posts, user)
+        this.renderPosts(hashtag.posts, user)
     }
-    renderProfile(user) {
+    renderProfile(user, connectedUser) {
         const { name, email, posts, bio } = user
         this.renderNavBar(true)
         console.log("in render profile")
-        const newHTML = this.template_profile({ name: name, email: email, bio: bio, isUser: isUser });
+        const newHTML = this.template_profile({ name: name, email: email, bio: bio});
         this.content.empty().append(newHTML);
-        this.renderPosts(user.posts, user)
+        this.renderPosts(user.posts,connectedUser)
     }
     renderNavBar(isConnected) {
         console.log("in navbar: " + isConnected)
@@ -106,12 +107,12 @@ class Renderer {
         const newHTML = this.template_friends({ friends: friends });
         this.friendsElement.empty().append(newHTML);
     }
-    renderDisplayFriends(friends) {
+    renderDisplayFriends(user) {
         this.renderNavBar(true)
         console.log("in render display friends")
         const newHTML = this.template_displayfriends();
         this.content.empty().append(newHTML);
-        this.renderFriends(friends)
+        this.renderFriends(user.friends)
     }
     renderSetDeleteBtns(user) {
         $(".delete").each(function () {
