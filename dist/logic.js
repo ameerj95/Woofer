@@ -8,9 +8,14 @@ class WooferManger {
     }
 
     /////////////createUser///////////
-    async creatUser(newUser) {
-
-
+    async creatUser(userName,email,bio) {
+        const newUser = {
+            name: userName,
+            email: email,
+            posts: [],
+            isConnected: true,
+            bio: bio,
+        }
         $.ajax({
             method: "POST",
             url: "/user",
@@ -36,18 +41,7 @@ class WooferManger {
         })
 
     }
-    ///////////////////  post Logic///////////////////////////
-    // async savePostInDB(post) {
-    //     return $.ajax({
-    //         method: "POST",
-    //         url: "/posts",
-    //         data: post,
-    //         success: (response)  => {
-    //             console.log("savePostInDB",response)
-    //         }
-
-    //     })
-    // }
+   
     async savePostInDB(postText) {
         const newPost = {
             user: this.userName,
@@ -68,12 +62,7 @@ class WooferManger {
             }
         })
     }
-    // savePostInDB = async function (user, userId, postText) {
-      
-        // await woofer.savePostInDB(newPost);
      
-
-
     async deletePostFromDB(data_id) {
         $.ajax({
             method: "DELETE",
