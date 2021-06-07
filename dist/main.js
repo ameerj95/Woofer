@@ -11,14 +11,14 @@ const newUser = {
     isConnected: true,
     bio: "we hope it will work at the end "
 }
-
 // localStorage.setItem("user",JSON.stringify(newUser))
 // const localUser = JSON.parse(localStorage.getItem("user"))
 // console.log("my extract user ", localUser)
-
+// const localUser = JSON.parse(localStorage.getItem("user"))
+const myUser={}
 const LoadPage = async function () {
+    
     if (userLogged === false) {
-
         render.renderSignUp();
     } else {
         woofer.getPostFromDb().then(function (err, res) {
@@ -38,16 +38,7 @@ $(document).ready(async function () {
 ////////sign up contrloer creat new user ////////////
 $('body').on("click", ".signupbtn", async function () {
     const inputs = $(this).closest('.container').find("input")
-    /////commet below/////////
-    // const email = $(inputs)[0].value
-    // const firstPass = $(inputs)[1].value
-    // const secondPass = $(inputs)[2].value
-
-    // const userName = "testimg"
-    // const bio = "testing "
-    /////commet above/////////
-
-    /////////////uncoment this 
+    
     const userName = $("#userNameInput").val()
     const email = $("#emailInput").val()
     const pass = $("#passInput").val()
@@ -63,8 +54,6 @@ $('body').on("click", ".signupbtn", async function () {
     await woofer.creatUser(userName, email, bio);
     userLogged = !userLogged;
     LoadPage()
-    // console.log($(this).closest('.container').find("input"))
-    // console.log($(this).closest('.container').find("input").val())
 
 })
 $('body').on("click", ".cancelbtn", function () {
@@ -74,23 +63,18 @@ $('body').on("click", ".cancelbtn", function () {
 
 $('body').on("click", ".loginbtn", function () {
     const inputs = $(this).closest('.container').find("input")
-    const email = inputs[0].value
+    const username = inputs[0].value
     const pass = inputs[1].value
+
     console.log("---------login-----------", email, pass)
 })
-const inputs = $(this).closest('.container').find("input")
-
 
 /////////////////post controler///////////////
-
-
-
 $('body').on("click", "#postButton", async function () {
     const postText = $('#postInput').val();
     await woofer.savePostInDB(postText)
     await woofer.getPostFromDb()
     render.renderFeed(woofer.UsersPosts)
-
 })
 
 $('body').on("click", ".deletePost", async function () {
@@ -98,8 +82,6 @@ $('body').on("click", ".deletePost", async function () {
     await woofer.deletePostFromDB(postId)
     await woofer.getPostFromDb();
     render.renderFeed(woofer.UsersPosts)
-
-
 })
 /////////////////////////comment controler/////////////////
 $('body').on("click", ".commentPostButton", async function () {
