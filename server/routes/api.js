@@ -5,10 +5,11 @@ const Post = require('../../model/Post')
 const User = require('../../model/User')
 const Comment = require('../../model/Comment')
 
+
 //Get all the posts***checked
 router.get('/posts', function (req, res) {
-    Post.find({},function(err,  posts){
-        console.log(posts)
+    Post.find({}).populate("comments").exec(function (err, posts) {
+        console.log("__________________________________________________________++",posts)
         res.send(posts)
     })
 })
@@ -16,6 +17,7 @@ router.get('/posts', function (req, res) {
 //Get all the users***checked
 router.get('/users', function (req, res) {
     User.find({}).populate("posts").exec(function(err,  posts){
+
         console.log(posts)
         res.send(posts)
     })
@@ -54,20 +56,23 @@ router.post('/user', function (req, res){
 //Add new post ***checked
 router.post('/posts', function (req, res) {
     let post  = req.body
-    let newPost = new Post({
+    let newPost =new Post ({
         user : post.user,
         text : post.text,
         likes : [],
         comments :[],
         date : post.date   
     })
-    console.log(newPost)
+    newPost.save()
+
     User.findByIdAndUpdate(post.userId,
         {$push : {posts : newPost } }, { new: true }, function (err, userres) 
         { 
+            console.log("_________",userres)
             res.send(userres)
     })
-    newPost.save()
+    console.log("_----------------------------------------------++",newPost)
+
 })
 router.get('/init', function (req, res) {
     let p1 = new User({
@@ -117,9 +122,6 @@ router.post('/comment', function (req, res) {
 //Deletes a post ***checked
 router.delete('/posts', function (req, res){
     let {postId}  = req.body
-    console.log("req.body^^^^^^^^^^^^66",postId)
-
-    
     Post.findByIdAndDelete(postId, function (err, postdelete){
         res.send('ok')
     })
@@ -128,7 +130,8 @@ router.delete('/posts', function (req, res){
 //Deletes a comment***checked
 router.delete('/comment', function (req, res){
     let {commentId}  = req.body
-    Comment.findByIdAndDelete(commentId,function(err,res){
+    console.log("_________commentIdErseved",commentId);
+    Comment.findByIdAndDelete(commentId,function(err,rese){
         res.send()
     })
 

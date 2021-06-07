@@ -8,25 +8,18 @@ class WooferManger {
     }
 
     /////////////createUser///////////
-    async creatUser() {
+    async creatUser(newUser) {
 
-        const newUser = {
-            name: "mosahassuna",
-            email: "mosahass@gmail.com",
-            posts: [],
-            isConnected: true,
-            bio: "we hope it will work at the end "
 
-        }
-
-      $.ajax({
+        $.ajax({
             method: "POST",
             url: "/user",
             data: newUser,
             success: (response) => {
-                console.log("_______-",response)
-                this.userId=response._id;
-                this.userName=response.name;
+                console.log("___+++++++++____-", response)
+                this.userId = response._id;
+                this.userName = response.name;
+                this.userEmail = response.email;
             }
         })
 
@@ -44,28 +37,51 @@ class WooferManger {
 
     }
     ///////////////////  post Logic///////////////////////////
-    async savePostInDB(post) {
+    // async savePostInDB(post) {
+    //     return $.ajax({
+    //         method: "POST",
+    //         url: "/posts",
+    //         data: post,
+    //         success: (response)  => {
+    //             console.log("savePostInDB",response)
+    //         }
 
+    //     })
+    // }
+    async savePostInDB(postText) {
+        const newPost = {
+            user: this.userName,
+            text: postText,
+            likes: [],
+            comments: [],
+            date: new Date(),
+            userId: this.userId
+    
+        }
         $.ajax({
             method: "POST",
             url: "/posts",
-            data: post,
+            data: newPost,
             success: (response) => {
 
                 console.log(response)
             }
         })
     }
+    // savePostInDB = async function (user, userId, postText) {
+      
+        // await woofer.savePostInDB(newPost);
+     
 
 
     async deletePostFromDB(data_id) {
         $.ajax({
             method: "DELETE",
             url: "/posts",
-            data: {postId:data_id},
+            data: { postId: data_id },
             success: (response) => {
                 console.log(response)
-                this.getPostFromDb()
+                // this.getPostFromDb()
             }
         })
     }
@@ -78,7 +94,6 @@ class WooferManger {
             url: "/comment",
             data: comment,
             success: (response) => {
-                console.log("___comment podt res__-_",response)
                 this.getPostFromDb()
             }
         })
@@ -86,10 +101,10 @@ class WooferManger {
     }
 
     async deleteCommentFromDB(data_id) {
-        $.ajax({
+       return $.ajax({
             method: "DELETE",
             url: "/comment",
-            data: data_id,
+            data: {commentId:data_id},
             success: (response) => {
                 console.log(response)
                 this.getPostFromDb()

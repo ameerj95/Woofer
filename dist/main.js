@@ -4,15 +4,35 @@ const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
 const userLogged = true
+const newUser = {
+    name: "firstUser",
+    email: "mosahass@gmail.com",
+    posts: [],
+    isConnected: true,
+    bio: "we hope it will work at the end "
+}
+
+// localStorage.setItem("user",JSON.stringify(newUser))
+// const localUser = JSON.parse(localStorage.getItem("user"))
+// console.log("my extract user ", localUser)
+
 const LoadPage = async function () {
+    //woofer.userName="firstUser";// login 
+
+
+    ///woofer.creatUser(newUser)
+    // await woofer.creatUser(newUser);
+
+
     if (userLogged === false) {
-        render.renderLogin();
+        render.renderSignUp();
     } else {
-        await woofer.creatUser();
-        await woofer.getPostFromDb();
-        console.log(woofer.UsersPosts)
+        woofer.getPostFromDb().then(function (err, res) {
+            console.log(woofer.UsersPosts)
+
+            render.renderFeed(woofer.UsersPosts)
+        })
         // const data=woofer.UsersPosts;
-        render.renderFeed(woofer.UsersPosts)
 
     }
 }
@@ -23,40 +43,83 @@ $(document).ready(async function () {
 
 
 
-const deletePost = async function () {
-    var postId = prompt("What is your deletepodt id?");
-    woofer.deletePostFromDB(postId)
-    // render.render_data(woofer.UserPosts)
+////////sign up contrloer creat new user ////////////
+$('body').on("click", ".signupbtn", async function () {
+    const email = $($(this).closest('.container').find("input"))[0]
+    const firstPass = $($(this).closest('.container').find("input"))[1]
+    const secondPass = $($(this).closest('.container').find("input"))[2]
 
-}
+    // const userName= $($(this).closest('.container').find("input"))[3];
+    const userName = "MosaDefult"
+    const bio = "testing "
 
-const saveComment = async function () {
-    var myPostId = prompt("What is your deletepodt id?");
-    const testcomment1 = {
-        user: "comment1",
-        PostId: myPostId,
-        date: date,
-        text: text
+
+    if (!validateEmail(email)) {
+        alert("ok email")
     }
-    woofer.saveCommentInDB(newTesterComment);
-    // render.render_data(woofer.UserPosts)
+    if (firstPass !== secondPass) {
+        alert("pass Not Match");
+    }
+    const newUser = {
+        name: userName,
+        email: email,
+        posts: [],
+        isConnected: true,
+        bio: bio,
+    }
 
-}
 
+    woofer.creatUser(newUser);
+    console.log(email.value)
+    console.log(firstPass.value);
+    console.log(secondPass.value);
+
+    // console.log($(this).closest('.container').find("input"))
+    // console.log($(this).closest('.container').find("input").val())
+
+})
+
+
+
+/////////////////post controler///////////////
 
 
 
 $('body').on("click", "#postButton", async function () {
     const postText = $('#postInput').val();
+    await woofer.savePostInDB(postText)
+    await woofer.getPostFromDb()
+    render.renderFeed(woofer.UsersPosts)
 
-    if (validateInput(postText)) {
-        await savePostInDB(woofer.userName, woofer.userId, postText)
-        await woofer.getPostFromDb()
-        render.renderFeed(woofer.UsersPosts)
-        console.log("ok input")
-    }
-    console.log("inside post")
 })
+
+
+// savePostInDB = async function (user, userId, postText) {
+//     const newPost = {
+//         user: user,
+//         text: postText,
+//         likes: [],
+//         comments: [],
+//         date: new Date(),
+//         userId: userId
+
+//     }
+//     return woofer.savePostInDB(newPost);
+    
+// }
+// if (validateInput(postText)) {
+//      savePostInDB(woofer.userName,woofer.userId, postText).then(function(err1,res1){
+//         console.log("res1",res1)
+//         woofer.getPostFromDb().then(function(err,res){
+//             console.log(woofer.UsersPosts)
+//             console.log("%%%%%%%%%%%%%%%%", res)
+
+//              render.renderFeed(woofer.UsersPosts)
+//          })
+//     })
+
+// }
+//})
 
 $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
@@ -66,28 +129,33 @@ $('body').on("click", ".deletePost", async function () {
 
 
 })
-
+/////////////////////////comment controler/////////////////
 $('body').on("click", ".commentPostButton", async function () {
+    const postId = $(this).data().postid;
+
+    console.log(" inside comment")
+    console.log(" comment postId", postId)
+    console.log("_userName", woofer.userName)
     const commentText = $('.commentInput').val();
     if (validateInput(commentText)) {
-        await saveCommentInDB(woofer.userName, woofer.userId,commentText)
+        // user, postId, commentText
+        await saveCommentInDB(woofer.userName, postId, commentText)
         await woofer.getPostFromDb();
         render.renderFeed(woofer.UsersPosts)
-        console.log("input Not Empty")
     }
-    console.log(this)
-
 
 })
 
 
-$('body').on("click", "deleteComment", function () {
-    postId = $(this).data().postid
-    await woofer.deleteCommentFromDB(postId)
+$('body').on("click", ".deleteComment", async function () {
+    const commentId = $(this).data().commentid
+    await woofer.deleteCommentFromDB(commentId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)})
+    render.renderFeed(woofer.UsersPosts)
+})
 
 
+/////////////////////////////signup controller/////////////////
 
 //// helper function 
 function validateInput(input) {
@@ -105,29 +173,17 @@ function validateEmail(email) {
 ////post 
 
 
-savePostInDB = async function (user, userId, postText) {
-    const newPost = {
-        user: user,
-        text: postText,
-        likes: [],
-        comments: [],
-        date: new Date(),
-        userId: userId
-
-    }
-    await woofer.savePostInDB(newPost);
-    return 0
-}
 
 
 saveCommentInDB = async function (user, postId, commentText) {
     const newComment = {
-        user : user,
-        text : commentText,
-        date : new Date() ,
+        user: user,
+        text: commentText,
+        date: new Date(),
         postId: postId
 
     }
+    console.log("_____________comment reseverd ____", newComment)
     await woofer.saveCommentInDB(newComment);
     return 0
 }

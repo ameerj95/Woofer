@@ -3,6 +3,15 @@ const path = require('path')
 const api = require('./server/routes/api')
 var mongoose = require('mongoose')
 mongoose.connect("mongodb://localhost/Woofer")
+mongoose.connection.once('open',function(){
+  mongoose.connection.db.createCollection("posts",function(){
+    console.log("done")
+  })
+  mongoose.connection.db.createCollection("comments",function(){
+    console.log("done")
+  })
+})
+
 
 var app = express()
 
