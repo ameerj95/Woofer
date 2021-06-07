@@ -1,0 +1,66 @@
+.profile{
+    grid-area: b;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 6fr;
+    grid-template-areas: 
+    "pi""pp";
+}
+.profilePosts{
+    grid-area: pp;
+}
+
+.profileInfo{
+    background-image: url('../imgs/bbackground4.jpg');
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 6fr;
+    grid-template-areas: 
+    "upp upi";
+    position: relative;
+    font-family: 'Kalam', cursive;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    grid-area: pi;
+}
+.UserprofileInfo{
+    padding: 60px;
+    font-size: 20px;
+    grid-area: upi
+}
+.userProfilepicwrapper{
+    position:absolute;
+    grid-area: upp;
+}
+.UserprofilePicture{
+    height: 300px;
+    width: 300px;
+    border: 5px solid rgb(255, 255, 255);
+    border-radius: 50%;
+}
+.profileUserName{
+    font-weight: bold;
+    font-size: 30px;
+}
+.profileBio{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    background-color: white;
+    padding: 20px;
+    word-wrap:break-word;
+    max-width:1100px;
+}
+.editProfile{
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 30px;
+    color: green;
+    width: 200px;
+    border:0.16em solid rgba(255,255,255,0);
+    border-radius:2em;
+
+}

@@ -9,25 +9,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300&family=Permanent+Marker&family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Source+Sans+Pro:ital@1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="feed.css" />
-    <link rel="stylesheet" href="login.css" />
-    <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="/css/signup.css" />
+    <link rel="stylesheet" href="/css/feed.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="/css/displayfriend.css" />
+
     <title>Woofer!</title>
 </head>
 
 <body>
-    <div id="header">
-        <!-- <div class="navbar">
-            <a class="active" id="feed">Woofer</a>
-            <a id="searchFriends">Friends</a>
-            <a id="search">Search</a>
-            <a id="profile">Profile</a>
-            <a id="logout">Logout</a>
-        </div> -->
+    <div id="wrapperbody">
+        <div id="header">
+        </div>
+        <br>
+        <div id="contentbody">
+        </div>
     </div>
-    <br>
-    <div id="contentbody">
-    </div>
+
+
+
+
+
 
     <!-- NAVBAR Template -->
     <script id="navbar-template" type="text/x-handlebars-template">
@@ -42,40 +46,151 @@
         </div>
     </script>
 
+    <!-- displayFriends Template -->
+    <script id="displayfriends-template" type="text/x-handlebars-template">
+        <div class="displayfriends">
+            <div class="friendstitle">
+                Friends
+            </div>
+            <div id="friendsresult">
+            </div>
+        </div>
+    </script>
+
+    <!-- SearchFriends Template -->
+    <script id="friends-template" type="text/x-handlebars-template">
+        {{#each friends}}
+            <div class="friend">
+                <img class="friendpic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
+                <div class="friendinfo">
+                    <div class="friendname">
+                        {{name}}
+                    </div>
+                    <hr>
+                    <div class="friendemail">
+                        <b>Email:</b> {{email}}
+                    </div>
+                    <div class="friendbio">
+                        {{bio}}
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </script>
+
+
+
+    <!-- Profile Template -->
+    <script id="profile-template" type="text/x-handlebars-template">
+        <div class="profile">
+            <div class="profileInfo">
+                <div>
+                    <img class="UserprofilePicture" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
+                    {{#if isUser}}
+                    <div class="editProfile">
+                        <button>Edit Profile</button>
+                    </div>
+                    {{/if}}
+                </div>
+                <div class="UserprofileInfo">
+                    <div class="profileUserName">
+                        {{name}}
+                    </div>
+                    <hr>
+                    <div class="profileEmail">
+                        <b>Email:</b> {{email}}
+                    </div>
+                    <br>
+                    <div class="profileBio">
+                        {{bio}}
+                    </div>
+                </div>
+            </div>
+            <div class="profilePosts">
+                <div id="contentposts">
+                </div>
+            </div>
+        </div>
+    </script>
 
     <!-- Signup TEMPLATE -->
     <script id="signup-template" type="text/x-handlebars-template">
-        <div class="container">
-            <h1>Sign Up</h1>
-            <p>Please fill this form to join Woofer!</p>
+        <div class="signupcontainer">
+            <h1 class="signuptext">Sign Up</h1>
+            <p class="signuptext">Please fill this form to join Woofer!</p>
             <hr>
+            <label for="username"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="username"  autocomplete="off" required>
+
             <label for="email"><b>Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required>
+            <input type="text" placeholder="Enter Email" name="email"  autocomplete="off" required>
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
-        
-            <label for="psw-repeat"><b>Repeat Password</b></label>
-            <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+            <input type="password" placeholder="Enter Password" name="psw"  autocomplete="off" required>
 
-            <p>By creating an account you agree to our <div><span>Terms & Services</span></div>.</p>
-        
+            <label for="bio"><b>Bio</b></label>
+            <input type="text" placeholder="Tell us a little bit about you..." name="bio"  autocomplete="off" required>
+
+            <p>By creating an account you agree to our 
+                <span class="magicterms">Terms & Services
+                    <span class="magicmsg"> Which is to have Fun!</span>
+                </span>
+                .
+            </p>
             <div class="clearfix">
-              <button type="button" class="cancelbtn">Cancel</button>
-              <button type="submit" class="signupbtn">Sign Up</button>
+                <button type="submit" class="signupbtn">Sign Up</button>
+                <button type="button" class="cancelbtn">Cancel</button>
+
             </div>
           </div>
     </script>
 
+
+
+    <!-- EDIT TEMPLATE -->
+    <script id="edit-template" type="text/x-handlebars-template">
+        <div class="signupcontainer">
+            <h1 class="signuptext">Edit Profile</h1>
+            <img class="editpic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
+            <p class="signuptext">Edit your profile info</p>
+            <hr>
+            <label for="username"><b>Username</b></label>
+            <input type="text" value="{{name}}" name="username"  autocomplete="off" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" value="{{email}}" name="email"  autocomplete="off" required>
+
+            <label for="bio"><b>Bio</b></label>
+            <input type="text" value="{{bio}}" name="bio"  autocomplete="off" required>
+            <div class="clearfix">
+              <button type="submit" class="signupbtn">Change</button>
+            </div>
+          </div>
+    </script>
+
+
     <!-- FEED TEMPLATE -->
     <script id="feed-template" type="text/x-handlebars-template">
         <div id="contentheader">
-            <input type="text" id="postInput">
+            <input type="text" id="postInput"  autocomplete="off">
             <button id="postButton">Post!</button>
         </div>
+        <hr>
         <div id="contentposts">
         </div>
     </script>
+
+    <!-- hash TEMPLATE -->
+    <script id="hash-template" type="text/x-handlebars-template">
+        <div id="contentheader">
+            <input type="text" id="hashInput"  autocomplete="off">
+            <button id="hashSearchBtn">Search</button>
+        </div>
+        <hr>
+        <div id="contentposts">
+        </div>
+    </script>
+
 
     <!-- LOGIN TEMPLATE -->
     <script id="login-template" type="text/x-handlebars-template">
@@ -84,14 +199,15 @@
                 <h1 class="loginText">Login</h1>
                 <img id="login_logo" src="/imgs/woofer_logo.png" alt="Avatar" class="avatar">
             </div>
+            <hr>
             <div class="container">
               <label for="uname"><b>Username</b></label>
-              <input id="loginUserInpt" type="text" placeholder="Enter Username" name="uname" required>
+              <input id="loginUserInpt" type="text" placeholder="Enter Username" name="uname"  autocomplete="off" required>
 
               <label for="psw"><b>Password</b></label>
-              <input id="loginPwInpt" type="password" placeholder="Enter Password" name="psw" required>
+              <input id="loginPwInpt" type="password" placeholder="Enter Password" name="psw"  autocomplete="off" required>
                   
-              <button type="submit">Login</button>
+              <button class="loginbtn" type="submit">Login</button>
             </div>
         </div>
     </script>
@@ -117,7 +233,9 @@
                     </div>
                     <button class="deletePost" data-postid="{{_id}}">X</button>
                 </div>
+
                 <div class="postComments" data-postid="{{_id}}">
+                    <hr>
                         {{#each comments}}
                         <div class="comment">
                             <div class="commentPic">
@@ -138,7 +256,7 @@
                         </div>
                         {{/each}}
                         <div class="addcomment">
-                            <input type="text" class="commentInput">
+                            <input type="text" class="commentInput"  autocomplete="off">
                             <button data-postid="{{_id}}" class="commentPostButton">Comment!</button>
                         </div>
                 </div>
