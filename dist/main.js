@@ -3,7 +3,7 @@ const inputTextElement = $('input');
 const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
-const userLogged = true
+var userLogged = false
 const newUser = {
     name: "firstUser",
     email: "mosahass@gmail.com",
@@ -17,19 +17,11 @@ const newUser = {
 // console.log("my extract user ", localUser)
 
 const LoadPage = async function () {
-    //woofer.userName="firstUser";// login 
-
-
-    ///woofer.creatUser(newUser)
-    // await woofer.creatUser(newUser);
-
-
     if (userLogged === false) {
+
         render.renderSignUp();
     } else {
         woofer.getPostFromDb().then(function (err, res) {
-            console.log(woofer.UsersPosts)
-
             render.renderFeed(woofer.UsersPosts)
         })
         // const data=woofer.UsersPosts;
@@ -45,40 +37,47 @@ $(document).ready(async function () {
 
 ////////sign up contrloer creat new user ////////////
 $('body').on("click", ".signupbtn", async function () {
-    const email = $($(this).closest('.container').find("input"))[0]
-    const firstPass = $($(this).closest('.container').find("input"))[1]
-    const secondPass = $($(this).closest('.container').find("input"))[2]
+    const inputs = $(this).closest('.container').find("input")
+    /////commet below/////////
+    const email = $(inputs)[0].value
+    const firstPass = $(inputs)[1].value
+    const secondPass = $(inputs)[2].value
 
-    // const userName= $($(this).closest('.container').find("input"))[3];
-    const userName = "MosaDefult"
+    const userName = "testimg"
     const bio = "testing "
+    /////commet above/////////
+
+    ///////////////uncoment this 
+    // const userName =  $(inputs)[0].value
+    // const email =  $(inputs)[1].value
+    // const firstPass =  $(inputs)[2].value
+    //  const bio=  $(inputs)[3].value
+
 
 
     if (!validateEmail(email)) {
         alert("ok email")
     }
-    if (firstPass !== secondPass) {
-        alert("pass Not Match");
-    }
-    const newUser = {
-        name: userName,
-        email: email,
-        posts: [],
-        isConnected: true,
-        bio: bio,
-    }
 
-
-    woofer.creatUser(newUser);
-    console.log(email.value)
-    console.log(firstPass.value);
-    console.log(secondPass.value);
-
+    await woofer.creatUser(userName, email, bio);
+    userLogged = !userLogged;
+    LoadPage()
     // console.log($(this).closest('.container').find("input"))
     // console.log($(this).closest('.container').find("input").val())
 
 })
+$('body').on("click", ".cancelbtn", function () {
+    render.renderLogin()
+})
 
+
+$('body').on("click", ".loginbtn", function () {
+    const inputs = $(this).closest('.container').find("input")
+    const email = inputs[0].value
+    const pass = inputs[1].value
+    console.log("---------login-----------", email, pass)
+})
+const inputs = $(this).closest('.container').find("input")
 
 
 /////////////////post controler///////////////
@@ -93,34 +92,6 @@ $('body').on("click", "#postButton", async function () {
 
 })
 
-
-// savePostInDB = async function (user, userId, postText) {
-//     const newPost = {
-//         user: user,
-//         text: postText,
-//         likes: [],
-//         comments: [],
-//         date: new Date(),
-//         userId: userId
-
-//     }
-//     return woofer.savePostInDB(newPost);
-    
-// }
-// if (validateInput(postText)) {
-//      savePostInDB(woofer.userName,woofer.userId, postText).then(function(err1,res1){
-//         console.log("res1",res1)
-//         woofer.getPostFromDb().then(function(err,res){
-//             console.log(woofer.UsersPosts)
-//             console.log("%%%%%%%%%%%%%%%%", res)
-
-//              render.renderFeed(woofer.UsersPosts)
-//          })
-//     })
-
-// }
-//})
-
 $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
     await woofer.deletePostFromDB(postId)
@@ -132,18 +103,12 @@ $('body').on("click", ".deletePost", async function () {
 /////////////////////////comment controler/////////////////
 $('body').on("click", ".commentPostButton", async function () {
     const postId = $(this).data().postid;
-
-    console.log(" inside comment")
-    console.log(" comment postId", postId)
-    console.log("_userName", woofer.userName)
     const commentText = $('.commentInput').val();
     if (validateInput(commentText)) {
-        // user, postId, commentText
         await saveCommentInDB(woofer.userName, postId, commentText)
         await woofer.getPostFromDb();
         render.renderFeed(woofer.UsersPosts)
     }
-
 })
 
 
@@ -153,6 +118,7 @@ $('body').on("click", ".deleteComment", async function () {
     await woofer.getPostFromDb();
     render.renderFeed(woofer.UsersPosts)
 })
+
 
 
 /////////////////////////////signup controller/////////////////
