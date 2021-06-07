@@ -169,7 +169,7 @@ router.get('/session', function (req, res) {
 })
 
 //logout 
-router.post('/logout', function (req, res) {
+router.get('/logout', function (req, res) {
     req.session.destroy()
     res.send('This session is destroyed')
 })
