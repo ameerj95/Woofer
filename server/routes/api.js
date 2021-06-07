@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { model } = require('mongoose')
+const moment = require('moment')
 const Post = require('../../model/Post')
 const User = require('../../model/User')
 const Comment = require('../../model/Comment')
@@ -10,7 +11,7 @@ const Hashtag = require('../../model/Hashtag')
 
 //Get all the posts***checked
 router.get('/posts', function (req, res) {
-    Post.find({}).populate("comments").exec(function (err, posts) {
+    Post.find({}).populate("comments").sort({date:-1}).exec(function (err, posts) {
         res.send(posts)
     })
 })
@@ -18,9 +19,14 @@ router.get('/posts', function (req, res) {
 //Get all the users***checked
 router.get('/users', function (req, res) {
     User.find({}).populate("posts").exec(function(err,  posts){
-
-        console.log(posts)
         res.send(posts)
+    })
+})
+
+//get route /getFriends , returns populated friends of current user 
+router.get('/getFriends', function(req,res){
+    User.findById(req.session.userId).populate("friends").exec(function(err, friends){
+        res.send(friends)
     })
 })
 
@@ -39,16 +45,38 @@ router.get('/user/:name', function (req, res) {
     })
 })
 
+//Get hashtag
+router.get('/hashInput/:hashtext', function (req, res){
+    var hashtext = req.params.hashtext
+    Hashtag.find({}).populate("posts").sort({date:-1}).exec(function (err, posts) {
+        res.send(posts)
+    })
+})
+
+
+//TODO
+//a put that recives in body new data about user info and update them
+router.put('/user', function (req, res){
+    var {name,email,bio} = req.body
+    //do a query that returns all posts that belong to this hash
+    //return the new updated profile
+})
+
 //Add new user***checked
 router.post('/user', function (req, res){
     let user = req.body
     let newUser = new User({
         name : user.name,
         email : user.email,
+        password : user.password,
+        friends : [],
         posts : [],
         isConnected : user.isConnected,
         bio : user.bio
     })
+    newUser.friends.push(new User({
+        name: "ann"
+    }))
     newUser.save()
     res.send(newUser)
 })
@@ -61,16 +89,16 @@ router.post('/posts', function (req, res) {
         text : post.text,
         likes : [],
         comments :[],
-        date : post.date   
+        date : moment().format("LLL")
     })
-    console.log(newPost)
+    newPost.save()
     User.findByIdAndUpdate(req.session.userId,
         {$push : {posts : newPost } }, { new: true }, function (err, userres) 
         { 
             res.send(userres)
     })
-})
 
+})
 
 //Adds new comment ***checked
 router.post('/comment', function (req, res) {
@@ -78,7 +106,7 @@ router.post('/comment', function (req, res) {
     let newComment = new Comment({
         user : comment.user,
         text : comment.text,
-        date : comment.date   
+        date : moment().format("LLL")
     })
 
     Post.findByIdAndUpdate(comment.postId,
@@ -92,8 +120,6 @@ router.post('/comment', function (req, res) {
 //Add to/hashtag
 router.post('/hashtag', async function(req,res){
     let {htWord , htPostId} = req.body
-    console.log(htWord)
-    console.log(htPostId)
     await Hashtag.findOne({word : htWord}, function(err,result) {
         if(result == null){
             let newHashtag = new Hashtag({
@@ -120,7 +146,7 @@ router.delete('/posts', function (req, res){
 router.delete('/comment', function (req, res){
     let {commentId}  = req.body
     Comment.findByIdAndDelete(commentId,function(err,rese){
-        res.send()
+        res.send("ok")
     })
 })
 
@@ -131,10 +157,9 @@ router.post('/login', function (req, res){
          {email : email},
          {password : password}
         ]}).exec(function(err,result){
-            console.log(result)
             if(result == null){
                 req.session.connected = false
-                res.send(404)
+                res.send(false)
             }
             else{
                 req.session.connected = true
@@ -154,5 +179,7 @@ router.post('/logout', function (req, res){
     req.session.destroy()
     res.send('This session is destroyed')
 })
+
+
 
 module.exports = router

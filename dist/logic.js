@@ -1,35 +1,38 @@
-
-
 class WooferManger {
     constructor() {
         this.UsersPosts = []
         this.userName;
-        this.userId;
     }
-
-    /////////////createUser///////////
-    async creatUser(userName,email,bio) {
+    //
+    initUser(username){
+        this.userName = username
+    }
+    //Create user
+    async creatUser() {
+        const userName = $("#userNameInput").val()
+        const email = $("#emailInput").val()
+        const password = $("#passInput").val()
+        const bio = $("#bioInput").val()
         const newUser = {
             name: userName,
             email: email,
             posts: [],
             isConnected: true,
             bio: bio,
+            password : password
         }
         $.ajax({
             method: "POST",
             url: "/user",
             data: newUser,
             success: (response) => {
-                console.log("___+++++++++____-", response)
-                this.userId = response._id;
-                this.userName = response.name;
-                this.userEmail = response.email;
+                this.initUser(response.name)
             }
         })
 
     }
-    ////////////getData////////////
+
+    //Get post
     async getPostFromDb() {
         return $.ajax({
             method: "GET",
@@ -42,96 +45,83 @@ class WooferManger {
 
     }
    
-    async savePostInDB(postText) {
+    //Save post
+    async savePostInDB() {
+        const postText = $('#postInput').val()
         const newPost = {
             user: this.userName,
             text: postText,
             likes: [],
             comments: [],
-            date: new Date(),
             userId: this.userId
-    
         }
         $.ajax({
             method: "POST",
             url: "/posts",
             data: newPost,
             success: (response) => {
-
-                console.log(response)
+                this.getPostFromDb()
             }
         })
     }
      
+    //Delete post
     async deletePostFromDB(data_id) {
         $.ajax({
             method: "DELETE",
             url: "/posts",
             data: { postId: data_id },
             success: (response) => {
-                console.log(response)
-                // this.getPostFromDb()
+                 this.getPostFromDb()
             }
         })
     }
 
-    ///////////////////   comment Logic///////////////////////////
-
-    async saveCommentInDB(comment) {
+    //Save comment
+    async saveCommentInDB(userName, postId, commentText) {
+        const newComment = {
+            user: userName,
+            text: commentText,
+            postId: postId
+        }
         $.ajax({
             method: "POST",
             url: "/comment",
-            data: comment,
+            data: newComment,
             success: (response) => {
                 this.getPostFromDb()
             }
         })
-
     }
 
+    //Delete comment
     async deleteCommentFromDB(data_id) {
        return $.ajax({
             method: "DELETE",
             url: "/comment",
             data: {commentId:data_id},
             success: (response) => {
-                console.log(response)
                 this.getPostFromDb()
-
             }
-
         })
     }
 
-    ///////// regster Logic///////////////
-    async regsterUserInDB(user) {
-        $.ajax({
+    //Login
+    async login() {
+        const email = $(`#loginUserInpt`).val()
+        const password = $(`#loginPwInpt`).val()
+        return $.ajax({
             method: "POST",
-            url: "/signUp",
-            data: user,
+            url: '/login',
+            data: {email: email , password :password},
             success: (response) => {
-                console.log(response)
-
-            }
-
-        })
-
-    }
-
-    ///// login//////////////////
-    login(user) {
-        $.ajax({
-            method: "POST",
-            url: 'logIn',
-            data: user,
-            success: (response) => {
-                console.log(response)
-
+                if(response != false){
+                    this.initUser(response.name)
+                }
+                else{
+                    this.initUser(false)
+                }
             }
         })
     }
-
-    ////////////////////////hashtagLogic Optional//////////
-
-
 }
