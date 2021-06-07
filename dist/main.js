@@ -15,7 +15,7 @@ const newUser = {
 
 const LoadPage = async function () {
     woofer.getPostFromDb().then(function (err, res) {
-            render.renderFeed(woofer.UsersPosts,woofer.userName)
+        render.renderFeed(woofer.UsersPosts, woofer.userName)
     })
 }
 
@@ -32,12 +32,12 @@ $('body').on("click", ".signupbtn", async function () {
 //User login 
 $('body').on("click", ".loginbtn", async function () {
     await woofer.login()
-    if(woofer.userName === false){
+    if (woofer.userName === false) {
         render.renderLogin()
     }
-    else{
+    else {
         LoadPage()
-    } 
+    }
 })
 
 //Cancel button
@@ -47,10 +47,10 @@ $('body').on("click", ".cancelbtn", function () {
 
 //Add post
 $('body').on("click", "#postButton", async function () {
-    
+
     await woofer.savePostInDB()
     await woofer.getPostFromDb()
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 
 })
 
@@ -59,7 +59,7 @@ $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
     await woofer.deletePostFromDB(postId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 
 
 })
@@ -74,8 +74,8 @@ $('body').on("click", ".commentPostButton", async function () {
     await woofer.saveCommentInDB(woofer.userName, postId, commentText);
     //await saveCommentInDB()
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
-    
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
+
 })
 //-------------------------------------------------------------------------
 //Delete comment
@@ -84,7 +84,7 @@ $('body').on("click", ".deleteComment", async function () {
     const commentId = $(this).data().commentid
     await woofer.deleteCommentFromDB(commentId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 })
 
 //// helper function 
@@ -104,7 +104,7 @@ function validateEmail(email) {
 //-------------------------------------------------------------------------
 //search friends
 
-$("body").on("click","#searchFriends",async function(){
+$("body").on("click", "#searchFriends", async function () {
     console.log("in event listener of searchFriends")
     render.renderDisplayFriends(await woofer.getFriends())
 })
@@ -112,7 +112,7 @@ $("body").on("click","#searchFriends",async function(){
 //-------------------------------------------------------------------------
 //search hashtag
 //-------------------------------------------------------------------------
-$("body").on("click","#searchHash",async function(){
+$("body").on("click", "#searchHash", async function () {
     console.log("in event listener of hashsearch page")
     render.renderSearchHash()
 })
@@ -120,14 +120,14 @@ $("body").on("click","#searchHash",async function(){
 //-------------------------------------------------------------------------
 //profile page
 //-------------------------------------------------------------------------
-$("body").on("click","#profile",async function(){
+$("body").on("click", "#profile", async function () {
     console.log("in event listener of profile page")
-    render.renderProfile(await woofer.getUser(woofer.userName),true)
+    render.renderProfile(await woofer.getUser(woofer.userName), true)
 })
 //-------------------------------------------------------------------------
 //logout
 //-------------------------------------------------------------------------
-$("body").on("click","#logout",async function(){
+$("body").on("click", "#logout", async function () {
     console.log("in event listener of logout")
     await woofer.logout()
     render.renderLogin()
@@ -135,21 +135,48 @@ $("body").on("click","#logout",async function(){
 //-------------------------------------------------------------------------
 //Hash Search Event listener
 //-------------------------------------------------------------------------
-$("body").on("click","#hashSearchBtn",async function(){
+$("body").on("click", "#hashSearchBtn", async function () {
     console.log("in event listener of hashsearch button")
     render.renderSearchHash(await woofer.getSearchedHash())
 })
 //-------------------------------------------------------------------------
 //Profile Edit Event listener
 //-------------------------------------------------------------------------
-$("body").on("click","#editButton",async function(){
+$("body").on("click", "#editButton", async function () {
     console.log("in event listener of edit button")
     render.renderEdit(await woofer.getUser(woofer.userName))
 })
 //-------------------------------------------------------------------------
 //Profile Edit Page listeners
 //-------------------------------------------------------------------------
-$("body").on("click","#editBtnProfile",async function(){
+$("body").on("click", "#editBtnProfile", async function () {
     console.log("in event listener of edit button profile")
     render.renderProfile(await updateProfile())
 })
+
+
+// var myChar = '£';
+// var str = "This product price is £15.00 and old price is £19.00";
+// var myArray = str.split(' ');
+// for(var i = 0; i < myArray.length; i++) {
+//   if (myArray[i].charAt(0) == myChar) {
+//     console.log(myArray[i]);
+//   }
+// }
+var str = "This #product #price #is £15.00 and #old price is £19.00";
+
+function getHashies(str) {
+    const cleanArr = []
+    var hashTagArray = str.split(" ").filter(function (n) {
+        if (/#/.test(n)) {
+            let word = n.slice(1)
+            // console.log(word)
+            cleanArr.push(word)
+            // return word
+        }
+    });
+    return cleanArr
+
+}
+var arr = getHashies(str)
+console.log("############", arr);
