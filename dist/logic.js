@@ -124,4 +124,46 @@ class WooferManger {
             }
         })
     }
+        //this function gets friends and returns it
+        async getFriends() {
+            return $.ajax({
+                method: "get",
+                url: '/getFriends',
+            })
+        }
+        //-------------------------------------------------------------------------
+        //this function gets hashed posts
+        async getSearchedHash() {
+            var hashInput = $("#hashInput").val()
+            return $.ajax({
+                method: "get",
+                url: `/getHashed/${hashInput}`,
+            })
+        }
+        //-------------------------------------------------------------------------
+        //this function gets hashed posts
+        async getUser(username) {
+            return $.ajax({
+                method: "get",
+                url: `/user/${username}`,
+            })
+        }
+        //-------------------------------------------------------------------------
+        async logout(){
+            return $.ajax({
+                method: "get",
+                url: `/logout`,
+            })
+        }
+        //-------------------------------------------------------------------------
+        async updateProfile(){
+            var name = $("#userNameInput").val()
+            var email = $("#emailInput").val()
+            var bio = $("#bioInput").val()
+            return $.ajax({
+                method: "put",
+                url: `/user`,
+                data:{name:name,email:email,bio:bio},
+            })
+        }
 }

@@ -15,7 +15,7 @@ const newUser = {
 
 const LoadPage = async function () {
     woofer.getPostFromDb().then(function (err, res) {
-            render.renderFeed(woofer.UsersPosts)
+            render.renderFeed(woofer.UsersPosts,woofer.userName)
     })
 }
 
@@ -50,7 +50,7 @@ $('body').on("click", "#postButton", async function () {
     
     await woofer.savePostInDB()
     await woofer.getPostFromDb()
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
 
 })
 
@@ -59,12 +59,14 @@ $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
     await woofer.deletePostFromDB(postId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
 
 
 })
 
-//
+//-------------------------------------------------------------------------
+//Add comment 
+//-------------------------------------------------------------------------
 $('body').on("click", ".commentPostButton", async function () {
     const postId = $(this).data().postid;
     const commentText = $(this).siblings(`.commentInput`).val()
@@ -72,15 +74,17 @@ $('body').on("click", ".commentPostButton", async function () {
     await woofer.saveCommentInDB(woofer.userName, postId, commentText);
     //await saveCommentInDB()
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
     
 })
-
+//-------------------------------------------------------------------------
+//Delete comment
+//-------------------------------------------------------------------------
 $('body').on("click", ".deleteComment", async function () {
     const commentId = $(this).data().commentid
     await woofer.deleteCommentFromDB(commentId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
 })
 
 //// helper function 
@@ -94,3 +98,58 @@ function validateEmail(email) {
     return re.test(email);
 
 }
+
+//-------------------------------------------------------------------------
+//Navbar event listeners
+//-------------------------------------------------------------------------
+//search friends
+
+$("body").on("click","#searchFriends",async function(){
+    console.log("in event listener of searchFriends")
+    render.renderDisplayFriends(await woofer.getFriends())
+})
+
+//-------------------------------------------------------------------------
+//search hashtag
+//-------------------------------------------------------------------------
+$("body").on("click","#searchHash",async function(){
+    console.log("in event listener of hashsearch page")
+    render.renderSearchHash()
+})
+
+//-------------------------------------------------------------------------
+//profile page
+//-------------------------------------------------------------------------
+$("body").on("click","#profile",async function(){
+    console.log("in event listener of profile page")
+    render.renderProfile(await woofer.getUser(woofer.userName),true)
+})
+//-------------------------------------------------------------------------
+//logout
+//-------------------------------------------------------------------------
+$("body").on("click","#logout",async function(){
+    console.log("in event listener of logout")
+    await woofer.logout()
+    render.renderLogin()
+})
+//-------------------------------------------------------------------------
+//Hash Search Event listener
+//-------------------------------------------------------------------------
+$("body").on("click","#hashSearchBtn",async function(){
+    console.log("in event listener of hashsearch button")
+    render.renderSearchHash(await woofer.getSearchedHash())
+})
+//-------------------------------------------------------------------------
+//Profile Edit Event listener
+//-------------------------------------------------------------------------
+$("body").on("click","#editButton",async function(){
+    console.log("in event listener of edit button")
+    render.renderEdit(await woofer.getUser(woofer.userName))
+})
+//-------------------------------------------------------------------------
+//Profile Edit Page listeners
+//-------------------------------------------------------------------------
+$("body").on("click","#editBtnProfile",async function(){
+    console.log("in event listener of edit button profile")
+    render.renderProfile(await updateProfile())
+})
