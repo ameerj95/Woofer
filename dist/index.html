@@ -60,7 +60,7 @@
     <!-- SearchFriends Template -->
     <script id="friends-template" type="text/x-handlebars-template">
         {{#each friends}}
-            <div class="friend">
+            <div data-username="{{name}}" class="friend profilelink">
                 <img class="friendpic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
                 <div class="friendinfo">
                     <div class="friendname">
@@ -82,7 +82,7 @@
 
     <!-- Profile Template -->
     <script id="profile-template" type="text/x-handlebars-template">
-        <div class="profile">
+        <div class="profile" >
             <div class="profileInfo">
                 <div>
                     <img class="UserprofilePicture" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
@@ -93,7 +93,7 @@
                     {{/if}}
                 </div>
                 <div class="UserprofileInfo">
-                    <div class="profileUserName">
+                    <div class="profileUserName profilelink" data-username="{{name}}">
                         {{name}}
                     </div>
                     <hr>
@@ -223,7 +223,7 @@
                     <img class="profilePic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
                 </div>
                 <div class="postBodyContent">
-                    <div class="nameUser">
+                    <div class="nameUser profilelink" data-username="{{user}}">
                         {{user}}
                     </div>
                     <div class="postText">
@@ -238,12 +238,12 @@
                 <div class="postComments" data-postid="{{_id}}">
                     <hr>
                         {{#each comments}}
-                        <div class="comment">
+                        <div class="comment"  >
                             <div class="commentPic">
                                 <img class="commentprofilePic" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
                             </div>
                             <div class="commentBodyContent">
-                                <div class="commentnameUser">
+                                <div class="commentnameUser profilelink" data-username="{{user}}">
                                     {{user}}
                                 </div>
                                 <div class="commentpostText">

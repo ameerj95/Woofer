@@ -15,7 +15,7 @@ const newUser = {
 
 const LoadPage = async function () {
     woofer.getPostFromDb().then(function (err, res) {
-            render.renderFeed(woofer.UsersPosts,woofer.userName)
+        render.renderFeed(woofer.UsersPosts, woofer.userName)
     })
 }
 
@@ -24,20 +24,20 @@ $(document).ready(async function () {
 })
 
 //User sign-in 
-$('body').on("click", ".signupbtn", async function () {
-    await woofer.creatUser();
-    LoadPage()
+$("body").on("click",".signupinlogin",async function(){
+    render.renderSignUp()
 })
 
 //User login 
 $('body').on("click", ".loginbtn", async function () {
     await woofer.login()
-    if(woofer.userName === false){
+    if (woofer.userName === false) {
         render.renderLogin()
+        alert("Email or password is incorrect")
     }
-    else{
+    else {
         LoadPage()
-    } 
+    }
 })
 
 //Cancel button
@@ -47,10 +47,10 @@ $('body').on("click", ".cancelbtn", function () {
 
 //Add post
 $('body').on("click", "#postButton", async function () {
-    
+
     await woofer.savePostInDB()
     await woofer.getPostFromDb()
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 
 })
 
@@ -59,7 +59,7 @@ $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
     await woofer.deletePostFromDB(postId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 
 
 })
@@ -74,8 +74,8 @@ $('body').on("click", ".commentPostButton", async function () {
     await woofer.saveCommentInDB(woofer.userName, postId, commentText);
     //await saveCommentInDB()
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
-    
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
+
 })
 //-------------------------------------------------------------------------
 //Delete comment
@@ -84,7 +84,7 @@ $('body').on("click", ".deleteComment", async function () {
     const commentId = $(this).data().commentid
     await woofer.deleteCommentFromDB(commentId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    render.renderFeed(woofer.UsersPosts, woofer.userName)
 })
 
 //// helper function 
@@ -104,7 +104,7 @@ function validateEmail(email) {
 //-------------------------------------------------------------------------
 //search friends
 
-$("body").on("click","#searchFriends",async function(){
+$("body").on("click", "#searchFriends", async function () {
     console.log("in event listener of searchFriends")
     render.renderDisplayFriends(await woofer.getFriends())
 })
@@ -112,22 +112,22 @@ $("body").on("click","#searchFriends",async function(){
 //-------------------------------------------------------------------------
 //search hashtag
 //-------------------------------------------------------------------------
-$("body").on("click","#searchHash",async function(){
+$("body").on("click", "#searchHash", async function () {
     console.log("in event listener of hashsearch page")
-    render.renderSearchHash()
+    render.renderSearchHash([],woofer.userName)
 })
 
 //-------------------------------------------------------------------------
 //profile page
 //-------------------------------------------------------------------------
-$("body").on("click","#profile",async function(){
+$("body").on("click", "#profile", async function () {
     console.log("in event listener of profile page")
-    render.renderProfile(await woofer.getUser(woofer.userName),true)
+    render.renderProfile(await woofer.getUser(woofer.userName), woofer.userName)
 })
 //-------------------------------------------------------------------------
 //logout
 //-------------------------------------------------------------------------
-$("body").on("click","#logout",async function(){
+$("body").on("click", "#logout", async function () {
     console.log("in event listener of logout")
     await woofer.logout()
     render.renderLogin()
@@ -135,21 +135,37 @@ $("body").on("click","#logout",async function(){
 //-------------------------------------------------------------------------
 //Hash Search Event listener
 //-------------------------------------------------------------------------
-$("body").on("click","#hashSearchBtn",async function(){
+$("body").on("click", "#hashSearchBtn", async function () {
     console.log("in event listener of hashsearch button")
-    render.renderSearchHash(await woofer.getSearchedHash())
+    render.renderSearchHash(await woofer.getSearchedHash(),woofer.userName)
 })
 //-------------------------------------------------------------------------
 //Profile Edit Event listener
 //-------------------------------------------------------------------------
-$("body").on("click","#editButton",async function(){
+$("body").on("click", "#editButton", async function () {
     console.log("in event listener of edit button")
     render.renderEdit(await woofer.getUser(woofer.userName))
 })
 //-------------------------------------------------------------------------
 //Profile Edit Page listeners
 //-------------------------------------------------------------------------
-$("body").on("click","#editBtnProfile",async function(){
+$("body").on("click", "#editBtnProfile", async function () {
     console.log("in event listener of edit button profile")
-    render.renderProfile(await updateProfile())
+    render.renderProfile(await updateProfile(),woofer.userName)
 })
+//-------------------------------------------------------------------------
+$("body").on("click","input",async function(){
+    console.log("do nothing")
+})
+
+//-------------------------------------------------------------------------
+$("body").on("click",".profilelink",async function(){
+    console.log("in event listener of edit button profile")
+    render.renderProfile(await woofer.getUser($(this).data().username) , woofer.userName)
+})
+//-------------------------------------------------------------------------
+$("body").on("click","#feed",async function(){
+    console.log("in event listener of feed")
+    LoadPage()
+})
+
