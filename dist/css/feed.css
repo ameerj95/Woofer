@@ -1,7 +1,9 @@
 body {
     font-family: 'Permanent Marker', cursive;
+    background-image: url('../imgs/bbackground.jpg');
   }
 #contentbody{
+    grid-area: b;
     height: 100vh;
     display: grid;
     grid-template-rows: 1fr 20fr;
@@ -55,7 +57,7 @@ body {
     grid-area: cp;
 }
 .post{
-    background-color: rgba(51, 150, 51, 0.267);
+    background-color: rgba(43, 122, 43, 0.521);
     display: grid;
     grid-gap: 10px;
     grid-template-columns: 1fr 15fr;
@@ -63,8 +65,10 @@ body {
     "pp pbc""c c";
     position: relative;
     font-family: 'Kalam', cursive;
+    font-size:20px;
     margin: 20px;
     padding: 20px;
+    color:white;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 .postDate{
@@ -74,9 +78,9 @@ body {
     top: 1px;
 }
 .nameUser{
-    color: green;
+    color: rgb(21, 94, 49);
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
 }
 .profilePic{
     height: 100px;
@@ -123,9 +127,9 @@ body {
     border-radius: 50%;
 }
 .commentnameUser{
-    color: rgb(34, 158, 34);
+    color: rgb(23, 90, 23);
     font-weight: bold;
-    font-size: 20px;
+    font-size: 25px;
 }
 
 .commentpostDate{
