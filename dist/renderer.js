@@ -36,7 +36,7 @@ class Renderer {
         //profile template
         this.source_profile = $('#profile-template').html();
         this.template_profile = Handlebars.compile(this.source_profile);
-         //=================================================
+        //=================================================
         //friends template
         this.source_friends = $('#friends-template ').html();
         this.template_friends = Handlebars.compile(this.source_friends);
@@ -46,69 +46,85 @@ class Renderer {
         this.template_displayfriends = Handlebars.compile(this.source_displayfriends);
         //=================================================
     }
-    renderPosts(posts) {
+    renderPosts(posts, user) {
         this.postsElement = $("#contentposts")
         console.log(posts)
-        const newHTML = this.template_post({ posts:posts });
+        const newHTML = this.template_post({ posts });
         this.postsElement.empty().append(newHTML);
+        this.renderSetDeleteBtns(user);
+
     }
-    renderFeed(posts){
+    renderFeed(posts, user) {
         this.renderNavBar(true)
         console.log("in renderfeed")
         const newHTML = this.template_feed();
         this.content.empty().append(newHTML);
-        this.renderPosts(posts)
+        this.renderPosts(posts, user)
+
     }
-    renderLogin(){
+    renderLogin() {
         this.renderNavBar(false)
         console.log("in renderLogin")
         const newHTML = this.template_login();
         this.content.empty().append(newHTML);
     }
-    renderSignUp(){
+    renderSignUp() {
         this.renderNavBar(false)
         console.log("in render signup")
         const newHTML = this.template_signup();
         this.content.empty().append(newHTML);
     }
-    renderEdit(user){
+    renderEdit(user) {
         this.renderNavBar(true)
         console.log("in render edit")
         const newHTML = this.template_edit(user);
         this.content.empty().append(newHTML);
     }
-    renderSearchHash(posts){
+    renderSearchHash(posts, user) {
         this.renderNavBar(true)
         console.log("in renderfeed")
         const newHTML = this.template_hash();
         this.content.empty().append(newHTML);
-        this.renderPosts(posts)
+        this.renderPosts(posts, user)
     }
-    renderProfile(user,isUser){
-        const {name,email,posts,bio} = user
+    renderProfile(user) {
+        const { name, email, posts, bio } = user
         this.renderNavBar(true)
         console.log("in render profile")
-        const newHTML = this.template_profile({name:name,email:email,bio:bio,isUser:isUser});
+        const newHTML = this.template_profile({ name: name, email: email, bio: bio, isUser: isUser });
         this.content.empty().append(newHTML);
-        this.renderPosts(user.posts)
+        this.renderPosts(user.posts, user)
     }
-    renderNavBar(isConnected){
-        console.log("in navbar: "+isConnected)
-        const newHTML = this.template_navbar({connection: isConnected});
+    renderNavBar(isConnected) {
+        console.log("in navbar: " + isConnected)
+        const newHTML = this.template_navbar({ connection: isConnected });
         this.header.empty().append(newHTML);
     }
-    renderFriends(friends){
+    renderFriends(friends) {
         this.friendsElement = $("#friendsresult")
         console.log(friends)
-        const newHTML = this.template_friends({ friends:friends });
+        const newHTML = this.template_friends({ friends: friends });
         this.friendsElement.empty().append(newHTML);
     }
-    renderDisplayFriends(friends){
+    renderDisplayFriends(friends) {
         this.renderNavBar(true)
         console.log("in render display friends")
         const newHTML = this.template_displayfriends();
         this.content.empty().append(newHTML);
         this.renderFriends(friends)
+    }
+    renderSetDeleteBtns(user) {
+        $(".delete").each(function () {
+            console.log(user)
+            console.log($(this).data("user"))
+            if ($(this).data("user") == user) {
+
+            }
+            else {
+                $(this).remove()
+
+            }
+        });
     }
 
 }

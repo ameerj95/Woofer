@@ -39,7 +39,7 @@
             <a class="active" id="feed">Woofer</a>
             {{#if connection}}
                 <a id="searchFriends">Friends</a>
-                <a id="search">Search</a>
+                <a id="searchHash">Hashtag</a>
                 <a id="profile">Profile</a>
                 <a id="logout">Logout</a>
             {{/if}}
@@ -88,7 +88,7 @@
                     <img class="UserprofilePicture" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*">
                     {{#if isUser}}
                     <div class="editProfile">
-                        <button>Edit Profile</button>
+                        <button id="editButton">Edit Profile</button>
                     </div>
                     {{/if}}
                 </div>
@@ -163,7 +163,7 @@
             <label for="bio"><b>Bio</b></label>
             <input id="bioInput" type="text" value="{{bio}}" name="bio"  autocomplete="off" required>
             <div class="clearfix">
-              <button type="submit" class="signupbtn">Change</button>
+              <button id="editBtnProfile" type="submit" class="signupbtn">Change</button>
             </div>
           </div>
     </script>
@@ -201,16 +201,17 @@
             </div>
             <hr>
             <div class="container">
-              <label for="uname"><b>Username</b></label>
+              <label for="uname"><b>Email</b></label>
               <input id="loginUserInpt" type="text" placeholder="Enter Username" name="uname"  autocomplete="off" required>
 
               <label for="psw"><b>Password</b></label>
               <input id="loginPwInpt" type="password" placeholder="Enter Password" name="psw"  autocomplete="off" required>
                   
               <button class="loginbtn" type="submit">Login</button>
+              <button class="signupinlogin" type="submit">Signup</button>
+
             </div>
-        </div>
-    </script>
+        </script>
 
 
 
@@ -231,7 +232,7 @@
                     <div class="postDate">
                         {{date}}
                     </div>
-                    <button class="deletePost" data-postid="{{_id}}">X</button>
+                    <button class="deletePost delete" data-user="{{user}}" data-postid="{{_id}}">X</button>
                 </div>
 
                 <div class="postComments" data-postid="{{_id}}">
@@ -251,7 +252,7 @@
                                 <div class="commentpostDate">
                                     {{date}}
                                 </div>
-                                <button class="deleteComment" data-commentid={{_id}}>X</button>
+                                <button class="deleteComment delete" data-user="{{user}}" data-commentid={{_id}}>X</button>
                             </div>
                         </div>
                         {{/each}}

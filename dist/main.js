@@ -3,7 +3,8 @@ const inputTextElement = $('input');
 const woofer = new WooferManger();
 const render = new Renderer();
 var ErrMsg = "";
-var userLogged = true
+var userLogged = false
+
 const newUser = {
     name: "firstUser",
     email: "mosahass@gmail.com",
@@ -11,100 +12,80 @@ const newUser = {
     isConnected: true,
     bio: "we hope it will work at the end "
 }
-// localStorage.setItem("user",JSON.stringify(newUser))
-// const localUser = JSON.parse(localStorage.getItem("user"))
-// console.log("my extract user ", localUser)
-// const localUser = JSON.parse(localStorage.getItem("user"))
-const myUser={}
-const LoadPage = async function () {
-    
-    if (userLogged === false) {
-        render.renderSignUp();
-    } else {
-        woofer.getPostFromDb().then(function (err, res) {
-            render.renderFeed(woofer.UsersPosts)
-        })
-        // const data=woofer.UsersPosts;
 
-    }
+const LoadPage = async function () {
+    woofer.getPostFromDb().then(function (err, res) {
+            render.renderFeed(woofer.UsersPosts,woofer.userName)
+    })
 }
 
 $(document).ready(async function () {
-    await LoadPage()
+    render.renderLogin()
 })
 
-
-
-////////sign up contrloer creat new user ////////////
+//User sign-in 
 $('body').on("click", ".signupbtn", async function () {
-    const inputs = $(this).closest('.container').find("input")
-    
-    const userName = $("#userNameInput").val()
-    const email = $("#emailInput").val()
-    const pass = $("#passInput").val()
-    const bio = $("#bioInput").val()
-    console.log("user email pass bio ",userName)
-
-
-
-    if (!validateEmail(email)) {
-        alert("ok email")
-    }
-
-    await woofer.creatUser(userName, email, bio);
-    userLogged = !userLogged;
+    await woofer.creatUser();
     LoadPage()
-
 })
+
+//User login 
+$('body').on("click", ".loginbtn", async function () {
+    await woofer.login()
+    if(woofer.userName === false){
+        render.renderLogin()
+    }
+    else{
+        LoadPage()
+    } 
+})
+
+//Cancel button
 $('body').on("click", ".cancelbtn", function () {
     render.renderLogin()
 })
 
-
-$('body').on("click", ".loginbtn", function () {
-    const inputs = $(this).closest('.container').find("input")
-    const username = inputs[0].value
-    const pass = inputs[1].value
-
-    console.log("---------login-----------", email, pass)
-})
-
-/////////////////post controler///////////////
+//Add post
 $('body').on("click", "#postButton", async function () {
-    const postText = $('#postInput').val();
-    await woofer.savePostInDB(postText)
+    
+    await woofer.savePostInDB()
     await woofer.getPostFromDb()
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
+
 })
 
+//Delete post
 $('body').on("click", ".deletePost", async function () {
     postId = $(this).data().postid
     await woofer.deletePostFromDB(postId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
+
+
 })
-/////////////////////////comment controler/////////////////
+
+//-------------------------------------------------------------------------
+//Add comment 
+//-------------------------------------------------------------------------
 $('body').on("click", ".commentPostButton", async function () {
     const postId = $(this).data().postid;
-    const commentText = $('.commentInput').val();
-    if (validateInput(commentText)) {
-        await saveCommentInDB(woofer.userName, postId, commentText)
-        await woofer.getPostFromDb();
-        render.renderFeed(woofer.UsersPosts)
-    }
+    const commentText = $(this).siblings(`.commentInput`).val()
+
+    await woofer.saveCommentInDB(woofer.userName, postId, commentText);
+    //await saveCommentInDB()
+    await woofer.getPostFromDb();
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
+    
 })
-
-
+//-------------------------------------------------------------------------
+//Delete comment
+//-------------------------------------------------------------------------
 $('body').on("click", ".deleteComment", async function () {
     const commentId = $(this).data().commentid
     await woofer.deleteCommentFromDB(commentId)
     await woofer.getPostFromDb();
-    render.renderFeed(woofer.UsersPosts)
+    render.renderFeed(woofer.UsersPosts,woofer.userName)
 })
-
-
-
-/////////////////////////////signup controller/////////////////
 
 //// helper function 
 function validateInput(input) {
@@ -118,26 +99,57 @@ function validateEmail(email) {
 
 }
 
+//-------------------------------------------------------------------------
+//Navbar event listeners
+//-------------------------------------------------------------------------
+//search friends
 
-////post 
+$("body").on("click","#searchFriends",async function(){
+    console.log("in event listener of searchFriends")
+    render.renderDisplayFriends(await woofer.getFriends())
+})
 
+//-------------------------------------------------------------------------
+//search hashtag
+//-------------------------------------------------------------------------
+$("body").on("click","#searchHash",async function(){
+    console.log("in event listener of hashsearch page")
+    render.renderSearchHash()
+})
 
-
-
-saveCommentInDB = async function (user, postId, commentText) {
-    const newComment = {
-        user: user,
-        text: commentText,
-        date: new Date(),
-        postId: postId
-
-    }
-    console.log("_____________comment reseverd ____", newComment)
-    await woofer.saveCommentInDB(newComment);
-    return 0
-}
-
-
-
-
-
+//-------------------------------------------------------------------------
+//profile page
+//-------------------------------------------------------------------------
+$("body").on("click","#profile",async function(){
+    console.log("in event listener of profile page")
+    render.renderProfile(await woofer.getUser(woofer.userName),true)
+})
+//-------------------------------------------------------------------------
+//logout
+//-------------------------------------------------------------------------
+$("body").on("click","#logout",async function(){
+    console.log("in event listener of logout")
+    await woofer.logout()
+    render.renderLogin()
+})
+//-------------------------------------------------------------------------
+//Hash Search Event listener
+//-------------------------------------------------------------------------
+$("body").on("click","#hashSearchBtn",async function(){
+    console.log("in event listener of hashsearch button")
+    render.renderSearchHash(await woofer.getSearchedHash())
+})
+//-------------------------------------------------------------------------
+//Profile Edit Event listener
+//-------------------------------------------------------------------------
+$("body").on("click","#editButton",async function(){
+    console.log("in event listener of edit button")
+    render.renderEdit(await woofer.getUser(woofer.userName))
+})
+//-------------------------------------------------------------------------
+//Profile Edit Page listeners
+//-------------------------------------------------------------------------
+$("body").on("click","#editBtnProfile",async function(){
+    console.log("in event listener of edit button profile")
+    render.renderProfile(await updateProfile())
+})

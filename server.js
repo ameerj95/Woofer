@@ -5,12 +5,8 @@ var mongoose = require('mongoose')
 mongoose.connect("mongodb://localhost/Woofer")
 const session = require('express-session')
 mongoose.connection.once('open',function(){
-  mongoose.connection.db.createCollection("posts",function(){
-    console.log("done")
-  })
-  mongoose.connection.db.createCollection("comments",function(){
-    console.log("done")
-  })
+  mongoose.connection.db.createCollection("posts",function(){})
+  mongoose.connection.db.createCollection("comments",function(){})
 })
 
 
