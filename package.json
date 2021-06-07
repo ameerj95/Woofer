@@ -19,6 +19,7 @@
   "homepage": "https://github.com/msj1995/Woofer#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "moment": "^2.29.1",
     "mongoose": "^5.12.13"
   }
