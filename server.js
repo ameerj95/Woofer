@@ -4,6 +4,15 @@ const api = require('./server/routes/api')
 var mongoose = require('mongoose')
 mongoose.connect("mongodb://localhost/Woofer")
 const session = require('express-session')
+mongoose.connection.once('open',function(){
+  mongoose.connection.db.createCollection("posts",function(){
+    console.log("done")
+  })
+  mongoose.connection.db.createCollection("comments",function(){
+    console.log("done")
+  })
+})
+
 
 var app = express()
 
@@ -24,4 +33,5 @@ app.use('/',api)
 app.listen(3001, function() {
     console.log("Server up and running on port 3001")
   })
+  
   

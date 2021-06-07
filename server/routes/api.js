@@ -7,6 +7,7 @@ const Comment = require('../../model/Comment')
 const Hashtag = require('../../model/Hashtag')
 
 
+
 //Get all the posts***checked
 router.get('/posts', function (req, res) {
     Post.find({}).populate("comments").exec(function (err, posts) {
@@ -17,6 +18,7 @@ router.get('/posts', function (req, res) {
 //Get all the users***checked
 router.get('/users', function (req, res) {
     User.find({}).populate("posts").exec(function(err,  posts){
+
         console.log(posts)
         res.send(posts)
     })
@@ -54,7 +56,7 @@ router.post('/user', function (req, res){
 //Add new post ***checked
 router.post('/posts', function (req, res) {
     let post  = req.body
-    let newPost = new Post({
+    let newPost =new Post ({
         user : post.user,
         text : post.text,
         likes : [],
@@ -67,8 +69,8 @@ router.post('/posts', function (req, res) {
         { 
             res.send(userres)
     })
-    newPost.save()
 })
+
 
 //Adds new comment ***checked
 router.post('/comment', function (req, res) {
@@ -84,7 +86,6 @@ router.post('/comment', function (req, res) {
         {
             res.send(newComment)
     })
-
     newComment.save()
 })
 
@@ -110,15 +111,15 @@ router.post('/hashtag', async function(req,res){
 //Deletes a post ***checked
 router.delete('/posts', function (req, res){
     let {postId}  = req.body
-    Post.findByIdAndDelete(postId,function(err,res){
-        res.send()
+    Post.findByIdAndDelete(postId, function (err, postdelete){
+        res.send('ok')
     })
 })
 
 //Deletes a comment***checked
 router.delete('/comment', function (req, res){
     let {commentId}  = req.body
-    Comment.findByIdAndDelete(commentId,function(err,res){
+    Comment.findByIdAndDelete(commentId,function(err,rese){
         res.send()
     })
 })

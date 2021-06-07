@@ -3,6 +3,30 @@
 class WooferManger {
     constructor() {
         this.UsersPosts = []
+        this.userName;
+        this.userId;
+    }
+
+    /////////////createUser///////////
+    async creatUser(userName,email,bio) {
+        const newUser = {
+            name: userName,
+            email: email,
+            posts: [],
+            isConnected: true,
+            bio: bio,
+        }
+        $.ajax({
+            method: "POST",
+            url: "/user",
+            data: newUser,
+            success: (response) => {
+                console.log("___+++++++++____-", response)
+                this.userId = response._id;
+                this.userName = response.name;
+                this.userEmail = response.email;
+            }
+        })
 
     }
     ////////////getData////////////
@@ -17,29 +41,36 @@ class WooferManger {
         })
 
     }
-    ///////////////////  post Logic///////////////////////////
-    async savePostInDB(post) {
-
+   
+    async savePostInDB(postText) {
+        const newPost = {
+            user: this.userName,
+            text: postText,
+            likes: [],
+            comments: [],
+            date: new Date(),
+            userId: this.userId
+    
+        }
         $.ajax({
             method: "POST",
             url: "/posts",
-            data: post,
+            data: newPost,
             success: (response) => {
 
                 console.log(response)
             }
         })
     }
-
-
+     
     async deletePostFromDB(data_id) {
         $.ajax({
             method: "DELETE",
             url: "/posts",
-            data: data_id,
+            data: { postId: data_id },
             success: (response) => {
                 console.log(response)
-                getPostFromDb()
+                // this.getPostFromDb()
             }
         })
     }
@@ -52,56 +83,55 @@ class WooferManger {
             url: "/comment",
             data: comment,
             success: (response) => {
-                console.log(response)
-                getPostFromDb()
+                this.getPostFromDb()
             }
         })
 
     }
 
     async deleteCommentFromDB(data_id) {
-        $.ajax({
+       return $.ajax({
             method: "DELETE",
             url: "/comment",
-            data: data_id,
+            data: {commentId:data_id},
             success: (response) => {
                 console.log(response)
-                getPostFromDb()
+                this.getPostFromDb()
 
             }
 
         })
     }
 
-///////// regster Logic///////////////
-async regsterUserInDB(user){
-    $.ajax({
-        method: "POST",
-        url: "/signUp",
-        data: user,
-        success: (response) => {
-            console.log(response)
+    ///////// regster Logic///////////////
+    async regsterUserInDB(user) {
+        $.ajax({
+            method: "POST",
+            url: "/signUp",
+            data: user,
+            success: (response) => {
+                console.log(response)
 
-        }
+            }
 
-    })
+        })
 
-}
+    }
 
-///// login//////////////////
-login(user){
-    $.ajax({
-        method:"POST",
-        url:'logIn',
-        data: user,
-        success: (response) => {
-            console.log(response)
+    ///// login//////////////////
+    login(user) {
+        $.ajax({
+            method: "POST",
+            url: 'logIn',
+            data: user,
+            success: (response) => {
+                console.log(response)
 
-        }
-    })
-}
+            }
+        })
+    }
 
-////////////////////////hashtagLogic Optional//////////
+    ////////////////////////hashtagLogic Optional//////////
 
 
 }

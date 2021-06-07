@@ -1,0 +1,46 @@
+.friend{
+    background-color: rgba(21, 100, 21, 0.445);
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 15fr;
+    grid-template-areas: 
+    "fp fi";
+    position: relative;
+    font-family: 'Kalam', cursive;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+.friendname{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.friendbio{
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    background-color: white;
+    padding: 20px;
+    word-wrap:break-word;
+    max-width:1100px;
+}
+.friendpic{
+    height: 200px;
+    width: 200px;
+    border: 5px solid rgb(255, 255, 255);
+    border-radius: 50%;
+    grid-area: fp;
+}
+.friendinfo{
+    grid-area: fi;
+    padding: 60px;
+    font-size: 20px;
+}
+.friendstitle{
+    text-align: center;
+    font-size: 70px;
+    color: green;
+
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+
+}
