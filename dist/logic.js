@@ -1,4 +1,4 @@
-class WooferManger {
+class WooferManger {//comment
     constructor() {
         this.UsersPosts = []
         this.userName;
